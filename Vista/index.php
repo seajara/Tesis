@@ -171,7 +171,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 		
 	</head>
 	<body>
-		<h4> Inicio Sesión </h4>
+		<h4> Hola mundo </h4>
 		
 <div id="inicio" style="float:middle">
 <form name="formularioInicio" method="POST" action="recibeLogin.php" >
