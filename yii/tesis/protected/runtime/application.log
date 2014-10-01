@@ -1354,3 +1354,96 @@ Stack trace:
 #3 {main}
 REQUEST_URI=/Tesis/yii/tesis/solicitud)
 ---
+2014/10/01 00:28:26 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "hojasdevida/list".' in C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('hojasdevida/lis...')
+#1 C:\xampp\htdocs\Tesis\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\Tesis\yii\tesis\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/Tesis/yii/tesis/hojasdevida/list
+HTTP_REFERER=http://localhost/Tesis/yii/tesis/hojadevida/create
+---
+2014/10/01 00:29:05 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "hojasdevida/list".' in C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('hojasdevida/lis...')
+#1 C:\xampp\htdocs\Tesis\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\Tesis\yii\tesis\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/Tesis/yii/tesis/hojasdevida/list
+HTTP_REFERER=http://localhost/Tesis/yii/tesis/hojadevida/create
+---
+2014/10/01 00:29:06 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "hojasdevida/list".' in C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('hojasdevida/lis...')
+#1 C:\xampp\htdocs\Tesis\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\Tesis\yii\tesis\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/Tesis/yii/tesis/hojasdevida/list
+HTTP_REFERER=http://localhost/Tesis/yii/tesis/hojadevida/create
+---
+2014/10/01 00:29:07 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "list".' in C:\xampp\htdocs\Tesis\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\Tesis\yii\framework\web\CController.php(270): CController->missingAction('list')
+#1 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(282): CController->run('list')
+#2 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('hojadevida/list')
+#3 C:\xampp\htdocs\Tesis\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\Tesis\yii\tesis\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/Tesis/yii/tesis/hojadevida/list
+HTTP_REFERER=http://localhost/Tesis/yii/tesis/hojasdevida/list
+---
+2014/10/01 00:29:08 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "list".' in C:\xampp\htdocs\Tesis\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\Tesis\yii\framework\web\CController.php(270): CController->missingAction('list')
+#1 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(282): CController->run('list')
+#2 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('hojadevida/list')
+#3 C:\xampp\htdocs\Tesis\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\Tesis\yii\tesis\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/Tesis/yii/tesis/hojadevida/list
+HTTP_REFERER=http://localhost/Tesis/yii/tesis/hojadevida/list
+---
+2014/10/01 00:29:24 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "list".' in C:\xampp\htdocs\Tesis\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\Tesis\yii\framework\web\CController.php(270): CController->missingAction('list')
+#1 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(282): CController->run('list')
+#2 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('hojadevida/list')
+#3 C:\xampp\htdocs\Tesis\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\Tesis\yii\tesis\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/Tesis/yii/tesis/hojadevida/list
+HTTP_REFERER=http://localhost/Tesis/yii/tesis/hojadevida/list
+---
+2014/10/01 00:29:25 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "list".' in C:\xampp\htdocs\Tesis\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\Tesis\yii\framework\web\CController.php(270): CController->missingAction('list')
+#1 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(282): CController->run('list')
+#2 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('hojaDeVida/list')
+#3 C:\xampp\htdocs\Tesis\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\Tesis\yii\tesis\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/Tesis/yii/tesis/hojaDeVida/list
+HTTP_REFERER=http://localhost/Tesis/yii/tesis/hojadevida/list
+---
+2014/10/01 00:29:26 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "list".' in C:\xampp\htdocs\Tesis\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\Tesis\yii\framework\web\CController.php(270): CController->missingAction('list')
+#1 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(282): CController->run('list')
+#2 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('hojaDeVida/list')
+#3 C:\xampp\htdocs\Tesis\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\Tesis\yii\tesis\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/Tesis/yii/tesis/hojaDeVida/list
+HTTP_REFERER=http://localhost/Tesis/yii/tesis/hojaDeVida/list
+---
+2014/10/01 00:30:07 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "list".' in C:\xampp\htdocs\Tesis\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\Tesis\yii\framework\web\CController.php(270): CController->missingAction('list')
+#1 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(282): CController->run('list')
+#2 C:\xampp\htdocs\Tesis\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('hojaDeVida/list')
+#3 C:\xampp\htdocs\Tesis\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\Tesis\yii\tesis\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/Tesis/yii/tesis/hojaDeVida/list
+HTTP_REFERER=http://localhost/Tesis/yii/tesis/hojaDeVida/list
+---
