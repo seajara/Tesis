@@ -18,4 +18,4 @@ $this->menu=array(
 
 <h1>Actualizar Hoja de Vida <?php //echo $model->id_hoja; ?></h1>
 
-<?php $this->renderPartial('form_update', array('model'=>$model,'modelSancion'=>$modelSancion)); ?>
+<?php $this->renderPartial('form_update', array('model'=>$model,'modelSancion'=>$modelSancion, 'modelCurso'=>$modelCurso)); ?>

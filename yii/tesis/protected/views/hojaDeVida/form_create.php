@@ -115,13 +115,43 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'fecha_in'); ?>
-		<?php echo $form->textField($model,'fecha_in',array('size'=>50)); ?>
+		<?php //echo $form->textField($model,'fecha_in',array('size'=>50)); 
+                    $this->widget('zii.widgets.jui.CJuiDatePicker',
+                           array(
+                               //'name'=>'datepicker',
+                               'model'=>$model,
+                               'attribute'=>'fecha_in',
+                               'language'=>'es',
+                               'options'=>array(
+                                   'dateFormat'=>'yy-mm-dd',
+                                   'constrainInput'=>'false',
+                                   'duration'=>'fast',
+                                   'showAnim'=>'slide',
+                               ),
+                           )  
+                      );
+                ?>
 		<?php echo $form->error($model,'fecha_in'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'fecha_r_in'); ?>
-		<?php echo $form->textField($model,'fecha_r_in',array('size'=>50)); ?>
+		<?php //echo $form->textField($model,'fecha_r_in',array('size'=>50));
+                    $this->widget('zii.widgets.jui.CJuiDatePicker',
+                           array(
+                               //'name'=>'datepicker',
+                               'model'=>$model,
+                               'attribute'=>'fecha_r_in',
+                               'language'=>'es',
+                               'options'=>array(
+                                   'dateFormat'=>'yy-mm-dd',
+                                   'constrainInput'=>'false',
+                                   'duration'=>'fast',
+                                   'showAnim'=>'slide',
+                               ),
+                           )  
+                      );
+                ?>
 		<?php echo $form->error($model,'fecha_r_in'); ?>
 	</div>
 
