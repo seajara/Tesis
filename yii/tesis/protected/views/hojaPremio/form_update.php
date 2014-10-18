@@ -1,13 +1,13 @@
 <?php
-/* @var $this SancionController */
-/* @var $model Sancion */
+/* @var $this HojaPremioController */
+/* @var $model HojaPremio */
 /* @var $form CActiveForm */
 ?>
 
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'sancion-form',
+	'id'=>'hoja-premio-form',
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.
@@ -16,8 +16,8 @@
 )); ?>
 
 	<p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
-        
-	<?php echo $form->errorSummary($model);?>
+
+	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
 		<?php //echo $form->labelEx($model,'id_hoja'); ?>
@@ -26,9 +26,20 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'id_premio'); ?>
+		<?php //echo $form->textField($model,'id_premio'); 
+                      $premios = Premio::model()->findAll(array('order' => 'descripcion')); 
+                      // format models as $key=>$value with listData
+                      $lista = CHtml::listData($premios,'id_premio','descripcion');
+                      echo $form->dropDownList($model,'id_premio',$lista,array('empty'=>'Seleccione un Premio'));
+                ?>
+		<?php echo $form->error($model,'id_premio'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'fecha'); ?>
-		<?php //echo $form->textField($model,'fecha',array('size'=>60)); 
-                      $this->widget('zii.widgets.jui.CJuiDatePicker',
+		<?php //echo $form->textField($model,'fecha'); 
+                $this->widget('zii.widgets.jui.CJuiDatePicker',
                            array(
                                //'name'=>'datepicker',
                                'model'=>$model,
@@ -44,18 +55,6 @@
                       );
                 ?>
 		<?php echo $form->error($model,'fecha'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'procede'); ?>
-		<?php echo $form->textField($model,'procede',array('size'=>60,'maxlength'=>100)); ?>
-		<?php echo $form->error($model,'procede'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'sinopsis'); ?>
-		<?php echo $form->textField($model,'sinopsis',array('size'=>60,'maxlength'=>100)); ?>
-		<?php echo $form->error($model,'sinopsis'); ?>
 	</div>
 
 	<div class="row buttons">

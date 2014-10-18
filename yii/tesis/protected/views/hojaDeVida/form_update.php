@@ -191,7 +191,7 @@
                             'header'=>'Acciones',
                             'template'=>'{update}{delete}', // botones a mostrar
                             'updateButtonUrl'=>'Yii::app()->createUrl("sancion/update", array("id"=>$data->id_sancion))',
-                            'deleteButtonUrl'=>'Yii::app()->controller->createUrl("sancion/delete/$data->id_sancion")',
+                            'deleteButtonUrl'=>'Yii::app()->createUrl("sancion/delete", array("id"=>$data->id_sancion))',
                             'deleteConfirmation'=>'¿Está Seguro de Eliminar esta Sancion?',
                             //'viewButtonImageUrl'=>Yii::app()->baseUrl.'',
                     ),
@@ -200,7 +200,7 @@
         <h3><strong>Cursos</strong></h3>
         <?php echo CHtml::button('Agregar Curso', array('submit'=>'../../hojaCurso/create?id_hoja='.$model->id_hoja));
             $this->widget('zii.widgets.grid.CGridView', array(
-            'id'=>'curso-grid',
+            'id'=>'hoja-curso-grid',
             'dataProvider'=>$modelCurso->search($model->id_hoja),
             'filter'=>$modelCurso,
             'columns'=>array(
@@ -222,7 +222,7 @@
                             'class'=>'CButtonColumn',
                             'header'=>'Acciones',
                             'template'=>'{delete}', // botones a mostrar
-                            'deleteButtonUrl'=>'Yii::app()->controller->createUrl("hojaCurso/delete/$data->id_hoja_curso")',
+                            'deleteButtonUrl'=>'Yii::app()->createUrl("hojaCurso/delete", array("id"=>$data->id_hoja_curso))',
                             'deleteConfirmation'=>'¿Está Seguro de Eliminar este Curso?',
                             //'viewButtonImageUrl'=>Yii::app()->baseUrl.'',
                     ),
@@ -230,4 +230,37 @@
 ));
         ?>
 
+        <h3><strong>Premios</strong></h3>
+        <?php $modelPremio=new HojaPremio('search');
+        echo CHtml::button('Agregar Premio', array('submit'=>'../../hojaPremio/create?id_hoja='.$model->id_hoja));
+            $this->widget('zii.widgets.grid.CGridView', array(
+            'id'=>'hoja-premio-grid',
+            'dataProvider'=>$modelPremio->search($model->id_hoja),
+            'filter'=>$modelPremio,
+            'columns'=>array(
+                    //'id_hoja',
+                    //'id_premio',
+                    //'fecha',
+                    array(
+                        'name' => 'fecha',
+                        'filter' => false, // para que no se muestre el campo de filtrar para el atributo fecha
+                     ),
+                     array(
+                        //'name' => 'id_premio',
+                        'header'=>'Descripcion',
+                        'filter' => false, // para que no se muestre el campo de filtrar para el atributo fecha
+                        'value'=>'Premio::model()->findByPk($data->id_premio)->descripcion',
+                     ),
+                    array(
+                            'class'=>'CButtonColumn',
+                            'header'=>'Acciones',
+                            'template'=>'{update}{delete}', // botones a mostrar
+                            'updateButtonUrl'=>'Yii::app()->createUrl("hojaPremio/update", array("id"=>$data->id_hoja_premio))',
+                            'deleteButtonUrl'=>'Yii::app()->createUrl("hojaPremio/delete", array("id"=>$data->id_hoja_premio))',
+                            'deleteConfirmation'=>'¿Está Seguro de Eliminar este Premio?',
+                            //'viewButtonImageUrl'=>Yii::app()->baseUrl.'',
+                    ),
+            ),
+));
+        ?>
 </div><!-- form -->

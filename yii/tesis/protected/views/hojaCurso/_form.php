@@ -31,7 +31,7 @@
                       $cursos = Curso::model()->findAll(array('order' => 'nombre')); 
                       // format models as $key=>$value with listData
                       $lista = CHtml::listData($cursos,'id_curso','nombre');
-                      echo $form->dropDownList($model,'id_curso',$lista,array('empty'=>'Seleccione una Curso'));?>
+                      echo $form->dropDownList($model,'id_curso',$lista,array('empty'=>'Seleccione un Curso'));?>
 		<?php echo $form->error($model,'id_curso'); ?>
 	</div>
 
