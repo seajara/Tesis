@@ -18,4 +18,4 @@ $this->menu=array(
 
 <h1>Update Premio <?php echo $model->id_premio; ?></h1>
 
-<?php $this->renderPartial('form_update', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model)); ?>
