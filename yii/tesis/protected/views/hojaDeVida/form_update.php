@@ -163,42 +163,46 @@
     
          <?php $this->endWidget(); ?>
         
-        <h3><strong>Sanciones</strong></h3>
-        
-        <?php //echo CHtml::link('Agregar Sancion',array('sancion/create?id_hoja='.$model->id_hoja));
-              echo CHtml::button('Agregar Sancion', array('submit'=>'../../sancion/create?id_hoja='.$model->id_hoja));
+        <h3><strong>Cargos</strong></h3>
+        <?php $modelCargo=new HojaCargo('search');
+        echo CHtml::button('Agregar Cargo', array('submit'=>'../../hojaCargo/create?id_hoja='.$model->id_hoja));
             $this->widget('zii.widgets.grid.CGridView', array(
-            'id'=>'sancion-grid',
-            'dataProvider'=>$modelSancion->searchBy($model->id_hoja),
-            'filter'=>$modelSancion,
+            'id'=>'hoja-cargo-grid',
+            'dataProvider'=>$modelCargo->search($model->id_hoja),
+            'filter'=>$modelCargo,
             'columns'=>array(
-                    //'id_sancion',
                     //'id_hoja',
+                    //'id_cargo',
                     array(
-                        'name' => 'fecha',
+                        //'name' => 'id_premio',
+                        'header'=>'Descripcion',
                         'filter' => false, // para que no se muestre el campo de filtrar para el atributo fecha
+                        'value'=>'Cargo::model()->findByPk($data->id_cargo)->descripcion',
                      ),
                     array(
-                        'name' => 'procede',
-                        'filter' => false, 
-                    ),
-                    array(
-                        'name' => 'sinopsis',
-                        'filter' => false,
-                    ),
+                        'name' => 'fecha_ini',
+                        'filter' => false, // para que no se muestre el campo de filtrar para el atributo fecha
+                     ),
+                     array(
+                        'name' => 'fecha_fin',
+                        'filter' => false, // para que no se muestre el campo de filtrar para el atributo fecha
+                     ),                     
                     array(
                             'class'=>'CButtonColumn',
                             'header'=>'Acciones',
                             'template'=>'{update}{delete}', // botones a mostrar
-                            'updateButtonUrl'=>'Yii::app()->createUrl("sancion/update", array("id"=>$data->id_sancion))',
-                            'deleteButtonUrl'=>'Yii::app()->createUrl("sancion/delete", array("id"=>$data->id_sancion))',
-                            'deleteConfirmation'=>'¿Está Seguro de Eliminar esta Sancion?',
+                            'updateButtonUrl'=>'Yii::app()->createUrl("hojaCargo/update", array("id"=>$data->id_hoja_cargo))',
+                            'deleteButtonUrl'=>'Yii::app()->createUrl("hojaCargo/delete", array("id"=>$data->id_hoja_cargo))',
+                            'deleteConfirmation'=>'¿Está Seguro de Eliminar este Cargo?',
                             //'viewButtonImageUrl'=>Yii::app()->baseUrl.'',
                     ),
             ),
-)); ?>
+));
+        ?>
+        
         <h3><strong>Cursos</strong></h3>
         <?php echo CHtml::button('Agregar Curso', array('submit'=>'../../hojaCurso/create?id_hoja='.$model->id_hoja));
+            $modelCurso=new HojaCurso('search');
             $this->widget('zii.widgets.grid.CGridView', array(
             'id'=>'hoja-curso-grid',
             'dataProvider'=>$modelCurso->search($model->id_hoja),
@@ -231,8 +235,8 @@
         ?>
 
         <h3><strong>Premios</strong></h3>
-        <?php $modelPremio=new HojaPremio('search');
-        echo CHtml::button('Agregar Premio', array('submit'=>'../../hojaPremio/create?id_hoja='.$model->id_hoja));
+        <?php echo CHtml::button('Agregar Premio', array('submit'=>'../../hojaPremio/create?id_hoja='.$model->id_hoja));
+            $modelPremio=new HojaPremio('search');
             $this->widget('zii.widgets.grid.CGridView', array(
             'id'=>'hoja-premio-grid',
             'dataProvider'=>$modelPremio->search($model->id_hoja),
@@ -264,40 +268,165 @@
 ));
         ?>
         
-        <h3><strong>Cargos</strong></h3>
-        <?php $modelCargo=new HojaCargo('search');
-        echo CHtml::button('Agregar Cargo', array('submit'=>'../../hojaCargo/create?id_hoja='.$model->id_hoja));
+        <h3><strong>Premios Especiales</strong></h3>      
+        <?php echo CHtml::button('Agregar Premio Especial', array('submit'=>'../../premioEspecial/create?id_hoja='.$model->id_hoja));
+            $modelPremioEsp=new PremioEspecial('search');
             $this->widget('zii.widgets.grid.CGridView', array(
-            'id'=>'hoja-cargo-grid',
-            'dataProvider'=>$modelCargo->search($model->id_hoja),
-            'filter'=>$modelCargo,
+            'id'=>'premio-esp-grid',
+            'dataProvider'=>$modelPremioEsp->searchBy($model->id_hoja),
+            'filter'=>$modelPremioEsp,
             'columns'=>array(
+                    //'id_premio_esp',
                     //'id_hoja',
-                    //'id_cargo',
                     array(
-                        'name' => 'fecha_ini',
+                        'name' => 'fecha',
                         'filter' => false, // para que no se muestre el campo de filtrar para el atributo fecha
                      ),
-                     array(
-                        'name' => 'fecha_fin',
+                    array(
+                        'name' => 'procede',
+                        'filter' => false, 
+                    ),
+                    array(
+                        'name' => 'clase',
+                        'filter' => false,
+                    ),
+                    array(
+                            'class'=>'CButtonColumn',
+                            'header'=>'Acciones',
+                            'template'=>'{update}{delete}', // botones a mostrar
+                            'updateButtonUrl'=>'Yii::app()->createUrl("premioEspecial/update", array("id"=>$data->id_premio_esp))',
+                            'deleteButtonUrl'=>'Yii::app()->createUrl("premioEspecial/delete", array("id"=>$data->id_premio_esp))',
+                            'deleteConfirmation'=>'¿Está Seguro de Eliminar este Premio?',
+                            //'viewButtonImageUrl'=>Yii::app()->baseUrl.'',
+                    ),
+            ),
+)); ?>
+              
+        <h3><strong>Sanciones</strong></h3>       
+        <?php echo CHtml::button('Agregar Sancion', array('submit'=>'../../sancion/create?id_hoja='.$model->id_hoja));
+            $modelSancion=new Sancion('search');
+            $this->widget('zii.widgets.grid.CGridView', array(
+            'id'=>'sancion-grid',
+            'dataProvider'=>$modelSancion->searchBy($model->id_hoja),
+            'filter'=>$modelSancion,
+            'columns'=>array(
+                    //'id_sancion',
+                    //'id_hoja',
+                    array(
+                        'name' => 'fecha',
                         'filter' => false, // para que no se muestre el campo de filtrar para el atributo fecha
                      ),
-                     array(
-                        //'name' => 'id_premio',
-                        'header'=>'Descripcion',
+                    array(
+                        'name' => 'procede',
+                        'filter' => false, 
+                    ),
+                    array(
+                        'name' => 'sinopsis',
+                        'filter' => false,
+                    ),
+                    array(
+                            'class'=>'CButtonColumn',
+                            'header'=>'Acciones',
+                            'template'=>'{update}{delete}', // botones a mostrar
+                            'updateButtonUrl'=>'Yii::app()->createUrl("sancion/update", array("id"=>$data->id_sancion))',
+                            'deleteButtonUrl'=>'Yii::app()->createUrl("sancion/delete", array("id"=>$data->id_sancion))',
+                            'deleteConfirmation'=>'¿Está Seguro de Eliminar esta Sancion?',
+                            //'viewButtonImageUrl'=>Yii::app()->baseUrl.'',
+                    ),
+            ),
+)); ?>
+        
+        <h3><strong>Bajas</strong></h3>       
+        <?php echo CHtml::button('Agregar Baja', array('submit'=>'../../baja/create?id_hoja='.$model->id_hoja));
+            $modelBaja=new Baja('search');
+            $this->widget('zii.widgets.grid.CGridView', array(
+            'id'=>'baja-grid',
+            'dataProvider'=>$modelBaja->searchBy($model->id_hoja),
+            'filter'=>$modelBaja,
+            'columns'=>array(
+                    //'id_baja',
+                    //'id_hoja',
+                    array(
+                        'name' => 'fecha',
                         'filter' => false, // para que no se muestre el campo de filtrar para el atributo fecha
-                        'value'=>'Cargo::model()->findByPk($data->id_cargo)->descripcion',
+                     ),
+                    array(
+                        'name' => 'procede',
+                        'filter' => false, 
+                    ),
+                    array(
+                        'name' => 'sinopsis',
+                        'filter' => false,
+                    ),
+                    array(
+                            'class'=>'CButtonColumn',
+                            'header'=>'Acciones',
+                            'template'=>'{update}{delete}', // botones a mostrar
+                            'updateButtonUrl'=>'Yii::app()->createUrl("baja/update", array("id"=>$data->id_baja))',
+                            'deleteButtonUrl'=>'Yii::app()->createUrl("baja/delete", array("id"=>$data->id_baja))',
+                            'deleteConfirmation'=>'¿Está Seguro de Eliminar esta Baja?',
+                            //'viewButtonImageUrl'=>Yii::app()->baseUrl.'',
+                    ),
+            ),
+)); ?>
+        
+        <h3><strong>Recomendaciones</strong></h3>       
+        <?php echo CHtml::button('Agregar Recomendacion', array('submit'=>'../../recomendacion/create?id_hoja='.$model->id_hoja));
+            $modelRecomendacion=new Recomendacion('search');
+            $this->widget('zii.widgets.grid.CGridView', array(
+            'id'=>'recomendacion-grid',
+            'dataProvider'=>$modelRecomendacion->searchBy($model->id_hoja),
+            'filter'=>$modelRecomendacion,
+            'columns'=>array(
+                    //'id_recomendacion',
+                    //'id_hoja',
+                    array(
+                        'name' => 'fecha',
+                        'filter' => false, // para que no se muestre el campo de filtrar para el atributo fecha
+                     ),
+                    array(
+                        'name' => 'procede',
+                        'filter' => false, 
+                    ),
+                    array(
+                        'name' => 'sinopsis',
+                        'filter' => false,
+                    ),
+                    array(
+                            'class'=>'CButtonColumn',
+                            'header'=>'Acciones',
+                            'template'=>'{update}{delete}', // botones a mostrar
+                            'updateButtonUrl'=>'Yii::app()->createUrl("recomendacion/update", array("id"=>$data->id_recomendacion))',
+                            'deleteButtonUrl'=>'Yii::app()->createUrl("recomendacion/delete", array("id"=>$data->id_recomendacion))',
+                            'deleteConfirmation'=>'¿Está Seguro de Eliminar esta Recomendacion?',
+                            //'viewButtonImageUrl'=>Yii::app()->baseUrl.'',
+                    ),
+            ),
+)); ?>    
+        
+        <h3><strong>Otros</strong></h3>        
+        <?php echo CHtml::button('Agregar Observacion', array('submit'=>'../../otro/create?id_hoja='.$model->id_hoja));
+            $modelOtro=new Otro('search');
+            $this->widget('zii.widgets.grid.CGridView', array(
+            'id'=>'otro-grid',
+            'dataProvider'=>$modelOtro->searchBy($model->id_hoja),
+            'filter'=>$modelOtro,
+            'columns'=>array(
+                    //'id_otro',
+                    //'id_hoja',
+                    array(
+                        'name' => 'descripcion',
+                        'filter' => false, // para que no se muestre el campo de filtrar para el atributo fecha
                      ),
                     array(
                             'class'=>'CButtonColumn',
                             'header'=>'Acciones',
                             'template'=>'{update}{delete}', // botones a mostrar
-                            'updateButtonUrl'=>'Yii::app()->createUrl("hojaCargo/update", array("id"=>$data->id_hoja_cargo))',
-                            'deleteButtonUrl'=>'Yii::app()->createUrl("hojaCargo/delete", array("id"=>$data->id_hoja_cargo))',
-                            'deleteConfirmation'=>'¿Está Seguro de Eliminar este Cargo?',
+                            'updateButtonUrl'=>'Yii::app()->createUrl("otro/update", array("id"=>$data->id_otro))',
+                            'deleteButtonUrl'=>'Yii::app()->createUrl("otro/delete", array("id"=>$data->id_otro))',
+                            'deleteConfirmation'=>'¿Está Seguro de Eliminar esta Observacion?',
                             //'viewButtonImageUrl'=>Yii::app()->baseUrl.'',
                     ),
             ),
-));
-        ?>
+)); ?>
 </div><!-- form -->

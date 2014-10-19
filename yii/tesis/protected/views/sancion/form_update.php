@@ -16,8 +16,8 @@
 )); ?>
 
 	<p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
-        
-	<?php echo $form->errorSummary($model);?>
+
+	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
 		<?php //echo $form->labelEx($model,'id_hoja'); ?>
@@ -27,8 +27,8 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'fecha'); ?>
-		<?php //echo $form->textField($model,'fecha',array('size'=>60)); 
-                      $this->widget('zii.widgets.jui.CJuiDatePicker',
+		<?php //echo $form->textField($model,'fecha'); 
+                    $this->widget('zii.widgets.jui.CJuiDatePicker',
                            array(
                                //'name'=>'datepicker',
                                'model'=>$model,

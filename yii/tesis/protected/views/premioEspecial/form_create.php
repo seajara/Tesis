@@ -7,7 +7,7 @@
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'sancion-form',
+	'id'=>'premio-esp-form',
         //'action'=>'../hojaDeVida/update/'.$id_hoja,
         //'action'=>array('hojaDeVida/update/'.$id_hoja),
 	// Please note: When you enable ajax validation, make sure the corresponding
@@ -17,9 +17,9 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Los campos <span class="required">*</span> son obligatorios.</p>
-
-	<?php echo $form->errorSummary($model); ?>
+	<p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
+        
+	<?php echo $form->errorSummary($model);?>
 
 	<div class="row">
 		<?php //echo $form->labelEx($model,'id_hoja'); ?>
@@ -29,8 +29,8 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'fecha'); ?>
-		<?php //echo $form->textField($model,'fecha'); 
-                    $this->widget('zii.widgets.jui.CJuiDatePicker',
+		<?php //echo $form->textField($model,'fecha',array('size'=>60));
+                      $this->widget('zii.widgets.jui.CJuiDatePicker',
                            array(
                                //'name'=>'datepicker',
                                'model'=>$model,
@@ -55,9 +55,9 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'sinopsis'); ?>
-		<?php echo $form->textField($model,'sinopsis',array('size'=>60,'maxlength'=>100)); ?>
-		<?php echo $form->error($model,'sinopsis'); ?>
+		<?php echo $form->labelEx($model,'clase'); ?>
+		<?php echo $form->textField($model,'clase',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->error($model,'clase'); ?>
 	</div>
 
 	<div class="row buttons">

@@ -1,15 +1,13 @@
 <?php
-/* @var $this SancionController */
-/* @var $model Sancion */
+/* @var $this BajaController */
+/* @var $model Baja */
 /* @var $form CActiveForm */
 ?>
 
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'sancion-form',
-        //'action'=>'../hojaDeVida/update/'.$id_hoja,
-        //'action'=>array('hojaDeVida/update/'.$id_hoja),
+	'id'=>'baja-form',
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.
@@ -17,13 +15,13 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Los campos <span class="required">*</span> son obligatorios.</p>
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
 		<?php //echo $form->labelEx($model,'id_hoja'); ?>
-		<?php echo $form->hiddenField($model,'id_hoja',array('value'=>$id_hoja)); ?>
+		<?php echo $form->hiddenField($model,'id_hoja'); ?>
 		<?php echo $form->error($model,'id_hoja'); ?>
 	</div>
 
@@ -61,8 +59,8 @@
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Agregar' : 'Save'); ?>
-                <?php echo CHtml::button('Atras', array('submit'=>'../hojaDeVida/update/'.$id_hoja));?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Modificar' : 'Save'); ?>
+                <?php echo CHtml::button('Atras', array('submit'=>'../../hojaDeVida/update/'.$model->id_hoja));?>
 	</div>
 
 <?php $this->endWidget(); ?>

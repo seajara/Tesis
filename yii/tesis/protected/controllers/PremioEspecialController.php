@@ -1,6 +1,6 @@
 <?php
 
-class HojaDeVidaController extends Controller
+class PremioEspecialController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -62,40 +62,22 @@ class HojaDeVidaController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new HojaDeVida;
+		$model=new PremioEspecial;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['HojaDeVida']))
+		if(isset($_POST['PremioEspecial']))
 		{
-			$model->attributes=$_POST['HojaDeVida'];
+			$model->attributes=$_POST['PremioEspecial'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_hoja));
+				//$this->redirect(array('view','id'=>$model->id_premio_esp));
+                            $this->redirect(array('hojaDeVida/update/'.$model->id_hoja)); //redireccionamos a su hoja correspondiente
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
 		));
-	}
-        
-        public function agregarCurso()
-	{
-		//$model=new HojaCurso();
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['HojaCurso']))
-		{
-			$model->attributes=$_POST['HojaCurso'];
-			if($model->save())
-				$this->redirect(array('hojaDeVida/update/'.$model->id_hoja)); 
-		}
-
-		/*$this->render('create',array(
-			'model'=>$model,
-		));*/
 	}
 
 	/**
@@ -106,22 +88,21 @@ class HojaDeVidaController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-		//$modelSancion->unsetAttributes();  // clear any default values
+
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-		if(isset($_POST['HojaDeVida']))
+
+		if(isset($_POST['PremioEspecial']))
 		{
-			$model->attributes=$_POST['HojaDeVida'];
+			$model->attributes=$_POST['PremioEspecial'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_hoja));
+				//$this->redirect(array('view','id'=>$model->id_premio_esp));
+                            $this->redirect(array('hojaDeVida/update/'.$model->id_hoja)); //redireccionamos a su hoja correspondiente
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
 		));
-                
-                
-                
 	}
 
 	/**
@@ -143,7 +124,7 @@ class HojaDeVidaController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('HojaDeVida');
+		$dataProvider=new CActiveDataProvider('PremioEspecial');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -154,11 +135,10 @@ class HojaDeVidaController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new HojaDeVida('search');
+		$model=new PremioEspecial('search');
 		$model->unsetAttributes();  // clear any default values
-                
-		if(isset($_GET['HojaDeVida']))
-			$model->attributes=$_GET['HojaDeVida'];
+		if(isset($_GET['PremioEspecial']))
+			$model->attributes=$_GET['PremioEspecial'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -169,12 +149,12 @@ class HojaDeVidaController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return HojaDeVida the loaded model
+	 * @return PremioEspecial the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=HojaDeVida::model()->findByPk($id);
+		$model=PremioEspecial::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -182,11 +162,11 @@ class HojaDeVidaController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param HojaDeVida $model the model to be validated
+	 * @param PremioEspecial $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='hoja-de-vida-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='premio-especial-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

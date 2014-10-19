@@ -1,27 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "hoja_cargo".
+ * This is the model class for table "premio_especial".
  *
- * The followings are the available columns in table 'hoja_cargo':
- * @property integer $id_hoja_cargo
+ * The followings are the available columns in table 'premio_especial':
+ * @property integer $id_premio_esp
  * @property integer $id_hoja
- * @property integer $id_cargo
- * @property string $fecha_ini
- * @property string $fecha_fin
+ * @property string $clase
+ * @property string $procede
+ * @property string $fecha
  *
  * The followings are the available model relations:
  * @property HojaDeVida $idHoja
- * @property Cargo $idCargo
  */
-class HojaCargo extends CActiveRecord
+class PremioEspecial extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'hoja_cargo';
+		return 'premio_especial';
 	}
 
 	/**
@@ -32,12 +31,13 @@ class HojaCargo extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_hoja, id_cargo', 'required'),
-			array('id_hoja, id_cargo', 'numerical', 'integerOnly'=>true),
-			array('fecha_ini, fecha_fin', 'safe'),
+			array('id_hoja, fecha', 'required'),
+			array('id_hoja', 'numerical', 'integerOnly'=>true),
+			array('clase', 'length', 'max'=>50),
+			array('procede', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_hoja_cargo, id_hoja, id_cargo, fecha_ini, fecha_fin', 'safe', 'on'=>'search'),
+			array('id_premio_esp, id_hoja, clase, procede, fecha', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,7 +50,6 @@ class HojaCargo extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'idHoja' => array(self::BELONGS_TO, 'HojaDeVida', 'id_hoja'),
-			'idCargo' => array(self::BELONGS_TO, 'Cargo', 'id_cargo'),
 		);
 	}
 
@@ -60,11 +59,11 @@ class HojaCargo extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_hoja_cargo' => 'Id Hoja Cargo',
+			'id_premio_esp' => 'Id Premio Esp',
 			'id_hoja' => 'Id Hoja',
-			'id_cargo' => 'Cargo',
-			'fecha_ini' => 'Fecha Inicio',
-			'fecha_fin' => 'Fecha Fin',
+			'clase' => 'Clase',
+			'procede' => 'Procede',
+			'fecha' => 'Fecha',
 		);
 	}
 
@@ -80,17 +79,34 @@ class HojaCargo extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search($id)
+	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id_hoja_cargo',$this->id_hoja_cargo);
+		$criteria->compare('id_premio_esp',$this->id_premio_esp);
+		$criteria->compare('id_hoja',$this->id_hoja);
+		$criteria->compare('clase',$this->clase,true);
+		$criteria->compare('procede',$this->procede,true);
+		$criteria->compare('fecha',$this->fecha,true);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+        
+        public function searchBy($id)
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id_premio_esp',$this->id_premio_esp);
 		$criteria->compare('id_hoja',$id);
-		$criteria->compare('id_cargo',$this->id_cargo);
-		$criteria->compare('fecha_ini',$this->fecha_ini,true);
-		$criteria->compare('fecha_fin',$this->fecha_fin,true);
+		$criteria->compare('clase',$this->clase,true);
+		$criteria->compare('procede',$this->procede,true);
+		$criteria->compare('fecha',$this->fecha,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -101,7 +117,7 @@ class HojaCargo extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return HojaCargo the static model class
+	 * @return PremioEspecial the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
