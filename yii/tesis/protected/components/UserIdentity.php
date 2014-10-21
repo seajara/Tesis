@@ -29,5 +29,20 @@ class UserIdentity extends CUserIdentity
 		else
 			$this->errorCode=self::ERROR_NONE;
 		return !$this->errorCode;
+            /*$conexion = Yii::app()->db;
+            
+            $consulta = "SELECT email, pass FROM cuenta_postulante ";
+            $consulta .= "WHERE email='".$this->username."' AND ";
+            $consulta .= "pass='".$this->password."'";
+            
+            $resultado = $conexion->createCommand($consulta)->query();
+            
+            $resultado->bindColumn(1, $this->username);
+            $resultado->bindColumn(2, $this->password);
+            
+            while($resultado->read()!==false){
+                $this->errorCode = self::ERROR_NONE;
+                return !$this->errorCode;
+            }*/
 	}
 }

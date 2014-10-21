@@ -3,16 +3,16 @@
 /* @var $model Solicitud */
 
 $this->breadcrumbs=array(
-	'Solicituds'=>array('index'),
-	'Create',
+	'Crear Solicitud'=>array('index'),
+	'Crear',
 );
 
-$this->menu=array(
+/*$this->menu=array(
 	array('label'=>'List Solicitud', 'url'=>array('index')),
 	array('label'=>'Manage Solicitud', 'url'=>array('admin')),
-);
+);*/
 ?>
 
-<h1>Create Solicitud</h1>
+<h1>Crear Solicitud</h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('form_create', array('model'=>$model)); ?>

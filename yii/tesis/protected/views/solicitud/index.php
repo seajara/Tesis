@@ -3,16 +3,15 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(
-	'Solicituds',
+	'Solicitudes Recibidas',
 );
 
 $this->menu=array(
-	array('label'=>'Create Solicitud', 'url'=>array('create')),
-	array('label'=>'Manage Solicitud', 'url'=>array('admin')),
+	array('label'=>'Buscar Solicitud', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Solicituds</h1>
+<h1>Lista de Solicitudes</h1>
 
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,

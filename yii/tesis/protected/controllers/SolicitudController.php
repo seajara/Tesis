@@ -28,7 +28,7 @@ class SolicitudController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'vista', 'admin', 'admin_postulante', 'revision'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -55,6 +55,13 @@ class SolicitudController extends Controller
 			'model'=>$this->loadModel($id),
 		));
 	}
+	
+	public function actionVista($id)
+	{
+		$this->render('vista',array(
+			'model'=>$this->loadModel($id),
+		));
+	}
 
 	/**
 	 * Creates a new model.
@@ -62,6 +69,7 @@ class SolicitudController extends Controller
 	 */
 	public function actionCreate()
 	{
+
 		$model=new Solicitud;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -71,13 +79,16 @@ class SolicitudController extends Controller
 		{
 			$model->attributes=$_POST['Solicitud'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_solicitud));
+				$this->redirect(array('vista','id'=>$model->id_solicitud));
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
 		));
-	}
+		}
+		
+
+		
 
 	/**
 	 * Updates a particular model.
@@ -95,14 +106,14 @@ class SolicitudController extends Controller
 		{
 			$model->attributes=$_POST['Solicitud'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_solicitud));
+				$this->redirect(array('admin','id'=>$model->id_solicitud));
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
 		));
 	}
-
+	
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -138,16 +149,46 @@ class SolicitudController extends Controller
 		if(isset($_GET['Solicitud']))
 			$model->attributes=$_GET['Solicitud'];
 
-		$this->render('admin',array(
+		$this->render('admin_postulante',array(
 			'model'=>$model,
 		));
 	}
+        
+        public function actionAdmin_Postulante()
+	{
+		$model=new Solicitud('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Solicitud']))
+			$model->attributes=$_GET['Solicitud'];
 
+		$this->render('admin_postulante',array(
+			'model'=>$model,
+		));
+	}
+	
+        public function actionRevision($id)
+	{
+		$model=$this->loadModel($id);
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Solicitud']))
+		{
+			$model->attributes=$_POST['Solicitud'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->id_solicitud));
+		}
+
+		$this->render('revision',array(
+			'model'=>$model,
+		));
+		
+	}
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Solicitud the loaded model
+	 * @return Solicitudrecibidas the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
@@ -160,7 +201,7 @@ class SolicitudController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Solicitud $model the model to be validated
+	 * @param Solicitudrecibidas $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{

@@ -3,13 +3,12 @@
 /* @var $model Solicitud */
 
 $this->breadcrumbs=array(
-	'Solicituds'=>array('index'),
-	'Manage',
+	'Solicitudes Recibidas'=>array('index'),
+	'Buscar',
 );
 
 $this->menu=array(
-	array('label'=>'List Solicitud', 'url'=>array('index')),
-	array('label'=>'Create Solicitud', 'url'=>array('create')),
+	array('label'=>'Lista de Solicitudes', 'url'=>array('index')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -18,7 +17,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$('#solicitud-grid').yiiGridView('update', {
+	$('#solicitudrecibidas-grid').yiiGridView('update', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -26,14 +25,10 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Solicituds</h1>
+<h1>Buscar Solicitud</h1>
 
-<p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
+<?php echo CHtml::link('Búsqueda Avanzada','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
@@ -46,8 +41,10 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'filter'=>$model,
 	'columns'=>array(
 		'id_solicitud',
-		'id_compania',
-		'id_comuna',
+		//'id_solicitud',
+		//'id_compania',
+		//'id_comuna',
+                //'id_cuenta_postulante',
 		'rut',
 		'nombre',
 		'ap_paterno',
@@ -61,10 +58,17 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'calidad',
 		'patrocinador',
 		'rut_pat',
-		'estado',
 		*/
+		'estado',
+		
 		array(
 			'class'=>'CButtonColumn',
+			 'header'=>'Acciones',
+                            'template'=>'{update}{delete}', // botones a mostrar
+							'updateButtonUrl'=>'Yii::app()->createUrl("solicitud/revision", array("id"=>$data->id_solicitud))',
+                            'deleteConfirmation'=>'¿Está Seguro de Eliminar esta Solicitud?',
+                            //'viewButtonImageUrl'=>Yii::app()->baseUrl.'',
+                    
 		),
 	),
 )); ?>

@@ -25,6 +25,11 @@
 		<?php echo $form->label($model,'id_comuna'); ?>
 		<?php echo $form->textField($model,'id_comuna',array('size'=>5,'maxlength'=>5)); ?>
 	</div>
+    
+        <div class="row">
+		<?php echo $form->label($model,'id_cuenta_postulante'); ?>
+		<?php echo $form->textField($model,'id_cuenta_postulante'); ?>
+	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'rut'); ?>
@@ -88,7 +93,7 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'estado'); ?>
-		<?php echo $form->textField($model,'estado'); ?>
+		<?php echo $form->textField($model,'estado',array('size'=>10,'maxlength'=>10)); ?>
 	</div>
 
 	<div class="row buttons">

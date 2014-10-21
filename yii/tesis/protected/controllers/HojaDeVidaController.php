@@ -63,15 +63,16 @@ class HojaDeVidaController extends Controller
 	public function actionCreate()
 	{
 		$model=new HojaDeVida;
-
+           
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
+	        // $this->performAjaxValidation($model);
+                
 		if(isset($_POST['HojaDeVida']))
 		{
-			$model->attributes=$_POST['HojaDeVida'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_hoja));
+                    //print_r($_POST);
+                    $model->attributes=$_POST['HojaDeVida'];
+                    if($model->save())
+			$this->redirect(array('view','id'=>$model->id_hoja));
 		}
 
 		$this->render('create',array(
@@ -79,25 +80,6 @@ class HojaDeVidaController extends Controller
 		));
 	}
         
-        public function agregarCurso()
-	{
-		//$model=new HojaCurso();
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['HojaCurso']))
-		{
-			$model->attributes=$_POST['HojaCurso'];
-			if($model->save())
-				$this->redirect(array('hojaDeVida/update/'.$model->id_hoja)); 
-		}
-
-		/*$this->render('create',array(
-			'model'=>$model,
-		));*/
-	}
-
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -108,9 +90,10 @@ class HojaDeVidaController extends Controller
 		$model=$this->loadModel($id);
 		//$modelSancion->unsetAttributes();  // clear any default values
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		// $this->performAjaxValidation($model);               
 		if(isset($_POST['HojaDeVida']))
 		{
+                    //print_r($_POST);
 			$model->attributes=$_POST['HojaDeVida'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id_hoja));
@@ -142,11 +125,16 @@ class HojaDeVidaController extends Controller
 	 * Lists all models.
 	 */
 	public function actionIndex()
-	{
+	{           
 		$dataProvider=new CActiveDataProvider('HojaDeVida');
-		$this->render('index',array(
+                # mPDF
+                $mPDF1 = Yii::app()->ePdf->mpdf();
+                $mPDF1->WriteHTML("<h1>hola mundo!!</h1>");
+                $mPDF1->WriteHTML("<p>primer pdf</p>");
+                $mPDF1->Output();
+		/*$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-		));
+		));*/
 	}
 
 	/**

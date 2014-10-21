@@ -270,6 +270,7 @@
         
         <h3><strong>Premios Especiales</strong></h3>      
         <?php echo CHtml::button('Agregar Premio Especial', array('submit'=>'../../premioEspecial/create?id_hoja='.$model->id_hoja));
+            $word='uno';
             $modelPremioEsp=new PremioEspecial('search');
             $this->widget('zii.widgets.grid.CGridView', array(
             'id'=>'premio-esp-grid',
@@ -291,9 +292,13 @@
                         'filter' => false,
                     ),
                     array(
+                        'header'=>'author',
+                        'value'=>'$data->procede'
+                    ),
+                    array(
                             'class'=>'CButtonColumn',
                             'header'=>'Acciones',
-                            'template'=>'{update}{delete}', // botones a mostrar
+                            'template'=> $word=='uno' ? '{update}{delete}' : '{delete}', // botones a mostrar
                             'updateButtonUrl'=>'Yii::app()->createUrl("premioEspecial/update", array("id"=>$data->id_premio_esp))',
                             'deleteButtonUrl'=>'Yii::app()->createUrl("premioEspecial/delete", array("id"=>$data->id_premio_esp))',
                             'deleteConfirmation'=>'¿Está Seguro de Eliminar este Premio?',

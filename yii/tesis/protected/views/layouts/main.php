@@ -30,14 +30,18 @@
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
 				array('label'=>'Home', 'url'=>array('/site/index')),
-				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-				array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>'Hojas de Vida', 'url'=>array('/hojaDeVida/admin')),
-                                array('label'=>'Cargos', 'url'=>array('/cargo/admin')),
-                                array('label'=>'Cursos', 'url'=>array('/curso/admin')),
-                                array('label'=>'Premios', 'url'=>array('/premio/admin')),
+				array('label'=>'Contáctanos', 'url'=>array('/site/contact')),
+				/*array('label'=>'Ver Instructivos', 'url'=>array('/site/page', 'view'=>'about')),//estatica
+                                array('label'=>'Inscribirse', 'url'=>array('/solicitud/admin_postulante')),
+				array('label'=>'Solicitud de Inscripción', 'url'=>array('/solicitud/admin'), 'visible'=>!Yii::app()->user->isGuest),
+				array('label'=>'Hojas de Vida', 'url'=>array('/hojaDeVida/admin'), 'visible'=>!Yii::app()->user->isGuest),
+                                array('label'=>'Cargos', 'url'=>array('/cargo/admin'), 'visible'=>!Yii::app()->user->isGuest),
+                                array('label'=>'Cursos', 'url'=>array('/curso/admin'), 'visible'=>!Yii::app()->user->isGuest),
+                                array('label'=>'Premios', 'url'=>array('/premio/admin'), 'visible'=>!Yii::app()->user->isGuest),*/
+				array('label'=>'Configuración','url'=>array('/site/page', 'view'=>'about'),'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
+				//array('label'=>'Inventario'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
+                                array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),
 		)); ?>
 	</div><!-- mainmenu -->
