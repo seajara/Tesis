@@ -7,8 +7,10 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
-
+	'name'=>'Sexta Compañía de Bomberos Chillán',
+        'language'=>'es',
+        'theme'=>'custom',
+        'defaultController'=>'site/login',
 	// preloading 'log' component
 	'preload'=>array('log'),
 
@@ -32,7 +34,7 @@ return array(
 	),
 
 	// application components
-	'components'=>array(
+	'components'=>array(                 
 		'ePdf' => array(
 			'class'         => 'ext.yii-pdf.EYiiPdf',
 			'params'        => array(
@@ -72,6 +74,7 @@ return array(
 		),
 		'user'=>array(
 			// enable cookie-based authentication
+                        'class' => 'WebUser',
 			'allowAutoLogin'=>true,
 		),
 		// uncomment the following to enable URLs in path-format
@@ -91,7 +94,7 @@ return array(
 		),
 		*/
 		// uncomment the following to use a MySQL database
-		
+		//para conectarse en forma local
 		'db'=>array(
                         'class' => 'CDbConnection',
 			'connectionString' => 'mysql:host=localhost;dbname=ffrancis',
@@ -100,6 +103,15 @@ return array(
 			'password' => '',
 			'charset' => 'utf8',
 		),
+                //para conexion al servidor
+                /*
+                'db'=>array(
+			'connectionString' => 'mysql:host=localhost;dbname=ffrancis',
+			'emulatePrepare' => true,
+			'username' => 'ffrancis',
+			'password' => 'oHXjXXwB',
+			'charset' => 'utf8',
+		),*/
 		
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
@@ -127,5 +139,5 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-	),
+	),   
 );

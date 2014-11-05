@@ -45,10 +45,10 @@ class Solicitud extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_compania, id_comuna, id_cuenta_postulante, rut, nombre, ap_paterno, ap_materno, patrocinador, rut_pat, estado', 'required'),
+			array('id_compania, id_comuna, id_usuario, rut, nombre, ap_paterno, ap_materno, patrocinador, rut_pat, estado', 'required'),
 			array('id_compania', 'numerical', 'integerOnly'=>true),
 			array('id_comuna', 'length', 'max'=>5),
-                        array('id_cuenta_postulante', 'length', 'max'=>11),
+                        array('id_usuario', 'length', 'max'=>11),
 			array('rut, rut_pat', 'length', 'max'=>12),
 			array('nombre, profesion, patrocinador', 'length', 'max'=>30),
 			array('ap_paterno, ap_materno', 'length', 'max'=>15),
@@ -57,7 +57,7 @@ class Solicitud extends CActiveRecord
 			array('fecha_nac', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_solicitud, id_compania, id_comuna, id_cuenta_postulante, rut, nombre, ap_paterno, ap_materno, fecha_nac, estado_civil, profesion, direccion, trabajo, calidad, patrocinador, rut_pat, estado', 'safe', 'on'=>'search'),
+			array('id_solicitud, id_compania, id_comuna, id_usuario, rut, nombre, ap_paterno, ap_materno, fecha_nac, estado_civil, profesion, direccion, trabajo, calidad, patrocinador, rut_pat, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -72,7 +72,7 @@ class Solicitud extends CActiveRecord
 			'hojaDeVidas' => array(self::HAS_MANY, 'HojaDeVida', 'id_solicitud'),
 			'idCompania' => array(self::BELONGS_TO, 'Compania', 'id_compania'),
 			'idComuna' => array(self::BELONGS_TO, 'Comuna', 'id_comuna'),
-			'idCuentaPostulante' => array(self::BELONGS_TO, 'CuentaPostulante', 'id_cuenta_postulante'),
+			'idUsuario' => array(self::BELONGS_TO, 'Usuario', 'id_usuario'),
 		);
 	}
 
@@ -83,17 +83,17 @@ class Solicitud extends CActiveRecord
 	{
 		return array(
 			'id_solicitud' => 'Id Solicitud',
-			'id_compania' => 'Id Compania',
+			'id_compania' => 'Id Companía',
 			'id_comuna' => 'Comuna',
-                        'id_cuenta_postulante' => 'Id Cuenta',
+                        'id_usuario' => 'Id Usuario',
 			'rut' => 'Rut',
 			'nombre' => 'Nombre',
 			'ap_paterno' => 'Apellido Paterno',
 			'ap_materno' => 'Apellido Materno',
 			'fecha_nac' => 'Fecha de Nacimiento',
 			'estado_civil' => 'Estado Civil',
-			'profesion' => 'Profesion',
-			'direccion' => 'Direccion',
+			'profesion' => 'Profesión',
+			'direccion' => 'Dirección',
 			'trabajo' => 'Trabajo',
 			'calidad' => 'Calidad',
 			'patrocinador' => 'Patrocinador',
@@ -123,7 +123,7 @@ class Solicitud extends CActiveRecord
 		$criteria->compare('id_solicitud',$this->id_solicitud);
 		$criteria->compare('id_compania',$this->id_compania);
 		$criteria->compare('id_comuna',$this->id_comuna,true);
-                $criteria->compare('id_cuenta_postulante',$this->id_cuenta_postulante,true);
+                $criteria->compare('id_usuario',$this->id_usuario,true);
 		$criteria->compare('rut',$this->rut,true);
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('ap_paterno',$this->ap_paterno,true);
@@ -152,7 +152,7 @@ class Solicitud extends CActiveRecord
 		$criteria->compare('id_solicitud',$this->id_solicitud);
 		$criteria->compare('id_compania',$this->id_compania);
 		$criteria->compare('id_comuna',$this->id_comuna,true);
-                $criteria->compare('id_cuenta_postulante',$id,true);
+                $criteria->compare('id_usuario',$id,true);
 		$criteria->compare('rut',$this->rut,true);
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('ap_paterno',$this->ap_paterno,true);

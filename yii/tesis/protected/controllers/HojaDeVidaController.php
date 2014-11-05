@@ -27,7 +27,7 @@ class HojaDeVidaController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			/*array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
@@ -38,6 +38,18 @@ class HojaDeVidaController extends Controller
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
+			),*/
+                        array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view', 'admin', 'create', 'update', 'delete','pdf'),
+				'roles'=>array('direccion'),
+			),
+                        array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view', 'admin'),
+				'roles'=>array('capitania'),
+			),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('view','admin'),
+				'roles'=>array('postulante'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -127,14 +139,10 @@ class HojaDeVidaController extends Controller
 	public function actionIndex()
 	{           
 		$dataProvider=new CActiveDataProvider('HojaDeVida');
-                # mPDF
-                $mPDF1 = Yii::app()->ePdf->mpdf();
-                $mPDF1->WriteHTML("<h1>hola mundo!!</h1>");
-                $mPDF1->WriteHTML("<p>primer pdf</p>");
-                $mPDF1->Output();
-		/*$this->render('index',array(
+                
+		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-		));*/
+		));
 	}
 
 	/**
@@ -152,6 +160,15 @@ class HojaDeVidaController extends Controller
 			'model'=>$model,
 		));
 	}
+        
+        public function actionPdf($id){
+                $model=$this->loadModel($id);
+                $this->layout="//layouts/pdf";
+                # mPDF
+                $mPDF1 = Yii::app()->ePdf->mpdf();
+                $mPDF1->WriteHTML($this->render('reporte',array('model'=>$model), true));
+                $mPDF1->Output("Hoja de Vida",  EYiiPdf::OUTPUT_TO_BROWSER);
+        }
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.

@@ -5,11 +5,13 @@
  *
  * The followings are the available columns in table 'categoria':
  * @property integer $id_categoria
+ * @property integer $id_compania
  * @property string $nombre
  * @property string $descripcion
  * @property string $area
  *
  * The followings are the available model relations:
+ * @property Compania $idCompania
  * @property Subcategoria[] $subcategorias
  */
 class Categoria extends CActiveRecord
@@ -30,14 +32,14 @@ class Categoria extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_categoria, nombre, area', 'required'),
-			array('id_categoria', 'numerical', 'integerOnly'=>true),
+			array('nombre', 'required'),
+			array('id_categoria, id_compania', 'numerical', 'integerOnly'=>true),
 			array('nombre', 'length', 'max'=>50),
 			array('descripcion', 'length', 'max'=>150),
 			array('area', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_categoria, nombre, descripcion, area', 'safe', 'on'=>'search'),
+			array('id_categoria, id_compania, nombre, descripcion, area', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,6 +51,7 @@ class Categoria extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'idCompania' => array(self::BELONGS_TO, 'Compania', 'id_compania'),
 			'subcategorias' => array(self::HAS_MANY, 'Subcategoria', 'id_categoria'),
 		);
 	}
@@ -59,7 +62,8 @@ class Categoria extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_categoria' => 'Id Categoria',
+			'id_categoria' => 'Código',
+			'id_compania' => 'Id Compania',
 			'nombre' => 'Nombre',
 			'descripcion' => 'Descripcion',
 			'area' => 'Area',
@@ -85,6 +89,7 @@ class Categoria extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_categoria',$this->id_categoria);
+		$criteria->compare('id_compania',$this->id_compania);
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('area',$this->area,true);
@@ -99,7 +104,7 @@ class Categoria extends CActiveRecord
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
 	 * @return Categoria the static model class
-	 */
+	 */     
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

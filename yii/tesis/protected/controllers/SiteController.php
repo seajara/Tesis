@@ -5,6 +5,7 @@ class SiteController extends Controller
 	/**
 	 * Declares class-based actions.
 	 */
+    public $layout='//layouts/column1';
 	public function actions()
 	{
 		return array(
@@ -27,11 +28,11 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		// renders the view file 'protected/views/site/index.php'
+// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		$this->render('index');
 	}
-
+        
 	/**
 	 * This is the action to handle external exceptions.
 	 */
@@ -77,6 +78,7 @@ class SiteController extends Controller
 	 */
 	public function actionLogin()
 	{
+                $this->layout="//layouts/columnIndex";
 		$model=new LoginForm;
 
 		// if it is ajax validation request
@@ -93,9 +95,15 @@ class SiteController extends Controller
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
 				$this->redirect(Yii::app()->user->returnUrl);
+                            //$this->redirect('site/index');
 		}
 		// display the login form
-		$this->render('login',array('model'=>$model));
+                if(Yii::app()->user->isGuest){
+                    $this->render('login',array('model'=>$model));
+                }else{
+                    $this->layout="//layouts/column1";	
+                    $this->render('index',array('model'=>$model));
+                }
 	}
 
 	/**

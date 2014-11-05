@@ -27,8 +27,8 @@
 	</div>
     
         <div class="row">
-		<?php echo $form->label($model,'id_cuenta_postulante'); ?>
-		<?php echo $form->textField($model,'id_cuenta_postulante'); ?>
+		<?php echo $form->label($model,'id_usuario'); ?>
+		<?php echo $form->textField($model,'id_usuario'); ?>
 	</div>
 
 	<div class="row">

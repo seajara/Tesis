@@ -27,7 +27,7 @@ class InventarioController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			/*array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
@@ -38,6 +38,10 @@ class InventarioController extends Controller
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
+			),*/
+                        array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view', 'admin', 'create', 'update', 'delete','updateajax', 'pdf', 'graficos'),
+				'roles'=>array('direccion','capitania'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -71,7 +75,7 @@ class InventarioController extends Controller
 		{
 			$model->attributes=$_POST['Inventario'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_inventario));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('create',array(
@@ -95,7 +99,7 @@ class InventarioController extends Controller
 		{
 			$model->attributes=$_POST['Inventario'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_inventario));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('update',array(
@@ -126,20 +130,46 @@ class InventarioController extends Controller
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+                
 	}
-
+        
+        public function actionUpdateAjax()
+        {
+        $data = array();
+        $data["myValue"] = "Content updated in AJAX";
+ 
+        $this->renderPartial('_ajaxContent', $data, false, true);
+        }
+        
+        public function actionPdf(){          
+                $dataProvider=new CActiveDataProvider('Inventario');
+                $this->layout="//layouts/pdf";
+                # mPDF
+                $mPDF1 = Yii::app()->ePdf->mpdf();
+                $mPDF1->WriteHTML($this->render('reporte',array('dataProvider'=>$dataProvider), true));
+                $mPDF1->Output("Inventario".date("YmdHis"),  EYiiPdf::OUTPUT_TO_BROWSER);
+        }
+        
+        public function actionGraficos(){
+            $this->render('graficos');
+        }
 	/**
 	 * Manages all models.
 	 */
 	public function actionAdmin()
-	{
+	{       
+                $data = array();
+                $data["myValue"] = "Content loaded";
+                
 		$model=new Inventario('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Inventario']))
 			$model->attributes=$_GET['Inventario'];
+                
+                //$this->render('admin', $data);
 
 		$this->render('admin',array(
-			'model'=>$model,
+			'model'=>$model, 'myValue'=>$data["myValue"],
 		));
 	}
 

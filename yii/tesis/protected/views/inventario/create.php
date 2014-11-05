@@ -4,15 +4,14 @@
 
 $this->breadcrumbs=array(
 	'Inventarios'=>array('index'),
-	'Create',
+	'Agregar',
 );
 
 $this->menu=array(
-	array('label'=>'List Inventario', 'url'=>array('index')),
-	array('label'=>'Manage Inventario', 'url'=>array('admin')),
+	array('label'=>'Buscar Elemento', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Create Inventario</h1>
+<h1>Agregar Elemento</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

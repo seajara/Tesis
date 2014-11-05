@@ -15,25 +15,30 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'id_categoria'); ?>
-		<?php echo $form->textField($model,'id_categoria'); ?>
+
+		<?php echo $form->error($model,'id_categoria'); ?>
+                <?php echo $form->labelEx($model,'id_categoria'); ?>
+		<?php $categoria = Categoria::model()->findAll(array('order' => 'nombre')); 
+                      // format models as $key=>$value with listData
+                      $lista = CHtml::listData($categoria,'id_categoria','nombre');
+                      echo $form->dropDownList($model,'id_categoria',$lista,array('empty'=>'Seleccione una Categoria'));?>
 		<?php echo $form->error($model,'id_categoria'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'nombre'); ?>
-		<?php echo $form->textField($model,'nombre',array('size'=>30,'maxlength'=>30)); ?>
+		<?php echo $form->textField($model,'nombre'); ?>
 		<?php echo $form->error($model,'nombre'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'descripcion'); ?>
-		<?php echo $form->textField($model,'descripcion',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->textField($model,'descripcion'); ?>
 		<?php echo $form->error($model,'descripcion'); ?>
 	</div>
 

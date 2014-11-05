@@ -3,7 +3,7 @@
 /* @var $model Solicitud */
 
 $this->breadcrumbs=array(
-	'Crear Solicitud'=>array('index'),
+	//'Crear Solicitud'=>array('index'),
 	'Buscar',
 );
 $this->menu=array(
@@ -24,7 +24,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Solicitud</h1>
+<h1>Mis Solicitudes</h1>
 
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
@@ -32,18 +32,16 @@ $('.search-form form').submit(function(){
 )); ?>
 </div><!-- search-form -->
 
-<?php 
-echo Yii::app()->user->name;
-$idCuenta = CuentaPostulante::model()->findByAttributes(array('email'=>Yii::app()->user->name))->id_cuenta_postulante;
+<?php $idUsuario = Usuario::model()->findByAttributes(array('login'=>Yii::app()->user->name))->id_usuario;
 $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'solicitud-grid',
-	'dataProvider'=>$model->searchBy($idCuenta),
+	'id'=>'solicitud-postulante-grid',
+	'dataProvider'=>$model->searchBy($idUsuario),
 
 	'columns'=>array(
 		//'id_solicitud',
 		//'id_compania',
 		//'id_comuna',
-                //'id_cuenta_postulante',
+                //'id_usuario',
 		'rut',
 		'nombre',
 		'ap_paterno',

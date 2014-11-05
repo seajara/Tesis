@@ -16,7 +16,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>View Subcategoria #<?php echo $model->id_subcategoria; ?></h1>
+<h1>View Subcategoría</h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,

@@ -16,12 +16,13 @@ $this->menu=array(
 );
 ?>
 
-<h1>View Categoria #<?php echo $model->id_categoria; ?></h1>
+<h1>View Categoría</h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'id_categoria',
+		'id_compania',
 		'nombre',
 		'descripcion',
 		'area',

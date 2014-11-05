@@ -3,8 +3,8 @@
 /* @var $model Solicitud */
 
 $this->breadcrumbs=array(
-	'Crear Solicitud'=>array('index'),
-	$model->id_solicitud=>array('view','id'=>$model->id_solicitud),
+	'Mis Solicitudes'=>array('admin_postulante'),
+	//$model->id_solicitud=>array('view','id'=>$model->id_solicitud),
 	'Modificar Solicitud',
 );
 
@@ -18,4 +18,4 @@ $this->breadcrumbs=array(
 
 <h1> Modificar Solicitud  </h1>
 
-<?php $this->renderPartial('form_create', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model)); ?>

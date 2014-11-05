@@ -22,7 +22,7 @@ $this->menu=array(
 		'id_solicitud',
 		'id_compania',
 		'id_comuna',
-                'id_cuenta_postulante',
+                'id_usuario',
 		'rut',
 		'nombre',
 		'ap_paterno',

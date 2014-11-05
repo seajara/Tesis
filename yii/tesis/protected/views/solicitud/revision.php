@@ -3,7 +3,7 @@
 /* @var $model Solicitud */
 
 $this->breadcrumbs=array(
-	'Solicitudes Recibidas'=>array('index'),
+	'Solicitudes Recibidas'=>array('admin'),
 	//$model->id_solicitud=>array('view','id'=>$model->id_solicitud),
 	'Responder Solicitud',
 );

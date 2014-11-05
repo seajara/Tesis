@@ -3,7 +3,7 @@
 /* @var $model HojaDeVida */
 
 $this->breadcrumbs=array(
-	'Hoja De Vidas'=>array('index'),
+	'Hoja De Vidas'=>array('admin'),
 	//$model->id_hoja=>array('view','id'=>$model->id_hoja),
 	'Actualizar',
 );
@@ -16,6 +16,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Actualizar Hoja de Vida <?php //echo $model->id_hoja; ?></h1>
+<!--<h1>Actualizar Hoja de Vida <?php //echo $model->id_hoja; ?></h1>-->
 
-<?php $this->renderPartial('form_update', array('model'=>$model)); ?>
+<?php $this->renderPartial('hojaDeVida', array('model'=>$model)); ?>

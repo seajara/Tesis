@@ -25,20 +25,20 @@ class SolicitudController extends Controller
 	 * @return array access control rules
 	 */
 	public function accessRules()
-	{
+	{           
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'vista', 'admin', 'admin_postulante', 'revision'),
-				'users'=>array('*'),
+				'actions'=>array('index','view', 'vista', 'admin', 'delete', 'revision'),
+				'roles'=>array('direccion','capitania'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
+				'actions'=>array('index','view', 'vista', 'create','update','delete','admin_postulante'),
+				'roles'=>array('postulante'),
 			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+			/*array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
-			),
+			),*/
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
@@ -132,7 +132,7 @@ class SolicitudController extends Controller
 	 * Lists all models.
 	 */
 	public function actionIndex()
-	{
+	{             
 		$dataProvider=new CActiveDataProvider('Solicitud');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
@@ -149,7 +149,7 @@ class SolicitudController extends Controller
 		if(isset($_GET['Solicitud']))
 			$model->attributes=$_GET['Solicitud'];
 
-		$this->render('admin_postulante',array(
+		$this->render('admin',array(
 			'model'=>$model,
 		));
 	}
@@ -174,9 +174,39 @@ class SolicitudController extends Controller
 
 		if(isset($_POST['Solicitud']))
 		{
+                    if(isset($_POST['correo'])){
+                    $this->redirect(array('index'));}
 			$model->attributes=$_POST['Solicitud'];
+                        if($model->estado=='Aceptado'){
+                            $usuario=  Usuario::model()->findByPk(array('id_usuario'=>$model->id_usuario));
+                            $email=$usuario->email;
+                            Yii::import("ext.Mailer.*");
+                            $mail=new PHPMailer();
+                            $mail->IsSMTP(); // telling the class to use SMTP
+                            //$mail->Host       = "mail.yourdomain.com"; // SMTP server
+                            //$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+                            // 1 = errors and messages
+                            // 2 = messages only
+                            $mail->SMTPAuth   = true;                  // enable SMTP authentication
+                            $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
+                            $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
+                            $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
+                            $mail->Username   = "plataforma.sexta.chillan@gmail.com";  // GMAIL username
+                            $mail->Password   = "sextachillan";            // GMAIL password
+                            $mail->CharSet = 'UTF-8';
+                            $mail->setFrom("plataforma.sexta.chillan@gmail.com","Sexta Compañía de Bomberos Chillán");
+                            $mail->Subject="Solicitud de incorporación";
+                            $mail->msgHTML("<p>Estimado ".$model->nombre
+                                    . " has sido aceptado por nuestra compañía de bomberos, y para concretar tu incorporación"
+                                    . " a nuestra institución, necesitamos que te dirijas a nuestro cuartel a la brevedad y presentes la información"
+                                    . " solicitada. Dicha documentación puedes encontrarla en la sección de Ver instructivos.</p>"
+                                    . "</br><p>Te esperamos!");
+                            $mail->addAddress($email,"Sexta Compañía de Bomberos Chillán");
+                            //$mail->IsHTML(true);
+                            $mail->send();
+                        }
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_solicitud));
+				$this->redirect(array('admin','id'=>$model->id_solicitud));
 		}
 
 		$this->render('revision',array(
@@ -211,4 +241,21 @@ class SolicitudController extends Controller
 			Yii::app()->end();
 		}
 	}
+        
+        public function SendMail()
+        {   
+            $message = new YiiMailMessage;
+               //this points to the file test.php inside the view path
+            $message->view = "test";
+            $sid                 = 1;
+            $criteria            = new CDbCriteria();
+            $criteria->condition = "id_usuario=".$sid."";            
+            $studModel1          = Usuario::model()->findByPk($sid);   
+            $params              = array('myMail'=>$studModel1);
+            $message->subject    = 'My TestSubject';
+            $message->setBody($params, 'text/html');                
+            $message->addTo('seajara@alumnos.ubiobio.cl');
+            $message->from = 'cbas014@gmail.com';   
+            Yii::app()->mail->send($message);       
+        }
 }

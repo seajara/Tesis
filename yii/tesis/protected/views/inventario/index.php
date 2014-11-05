@@ -7,8 +7,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Inventario', 'url'=>array('create')),
-	array('label'=>'Manage Inventario', 'url'=>array('admin')),
+	array('label'=>'Agregar Elemento', 'url'=>array('create')),
+	array('label'=>'Buscar Elemento', 'url'=>array('admin')),
 );
 ?>
 
@@ -18,3 +18,5 @@ $this->menu=array(
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_view',
 )); ?>
+
+ 

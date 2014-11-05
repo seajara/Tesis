@@ -15,36 +15,42 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'id_categoria'); ?>
-		<?php echo $form->textField($model,'id_categoria'); ?>
+		<?php /*echo $form->labelEx($model,'id_categoria'); */?>
+		<?php echo $form->hiddenField($model,'id_categoria'); ?>
 		<?php echo $form->error($model,'id_categoria'); ?>
 	</div>
 
 	<div class="row">
+		<?php /*echo $form->labelEx($model,'id_compania'); */?>
+		<?php echo $form->hiddenField($model,'id_compania',array('value'=>6)); ?>
+		<?php echo $form->error($model,'id_compania'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'nombre'); ?>
-		<?php echo $form->textField($model,'nombre',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textField($model,'nombre'); ?>
 		<?php echo $form->error($model,'nombre'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'descripcion'); ?>
-		<?php echo $form->textField($model,'descripcion',array('size'=>60,'maxlength'=>150)); ?>
+		<?php echo $form->textField($model,'descripcion'); ?>
 		<?php echo $form->error($model,'descripcion'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'area'); ?>
-		<?php echo $form->textField($model,'area',array('size'=>20,'maxlength'=>20)); ?>
+		<?php echo $form->dropDownList($model, 'area', array(''=>'','Dirección'=>'Dirección','Capitanía'=>'Capitanía')); ?>
 		<?php echo $form->error($model,'area'); ?>
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Agregar' : 'Modificar'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

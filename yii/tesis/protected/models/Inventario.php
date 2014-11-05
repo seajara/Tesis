@@ -38,11 +38,15 @@ class Inventario extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_inventario, id_subcategoria, id_compania, descripcion, fecha_in', 'required'),
-			array('id_subcategoria, id_compania, cantidad, estado', 'numerical', 'integerOnly'=>true),
+			array('id_subcategoria, id_compania', 'numerical', 'integerOnly'=>true),
 			array('id_inventario', 'length', 'max'=>15),
+                       array('id_inventario' ,'unique'),
+                        array('cantidad' ,'numerical', 'min'=>1),
+                        //array('fecha_in', 'default', 'setOnEmpty'=>''),
 			array('descripcion, observaciones', 'length', 'max'=>200),
 			array('proveedor, responsable', 'length', 'max'=>50),
 			array('movil', 'length', 'max'=>20),
+                        array('estado', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_inventario, id_subcategoria, id_compania, descripcion, proveedor, fecha_in, responsable, movil, cantidad, observaciones, estado', 'safe', 'on'=>'search'),
@@ -67,12 +71,12 @@ class Inventario extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_inventario' => 'Id Inventario',
-			'id_subcategoria' => 'Id Subcategoria',
-			'id_compania' => 'Id Compania',
-			'descripcion' => 'Descripcion',
+			'id_inventario' => 'Código',
+			'id_subcategoria' => 'Subcategoria',
+			'id_compania' => 'Compania',
+			'descripcion' => 'Nombre',
 			'proveedor' => 'Proveedor',
-			'fecha_in' => 'Fecha In',
+			'fecha_in' => 'Fecha Incorporación',
 			'responsable' => 'Responsable',
 			'movil' => 'Movil',
 			'cantidad' => 'Cantidad',
@@ -122,6 +126,31 @@ class Inventario extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Inventario the static model class
 	 */
+        public static function getListSubcategoria(){
+            return CHtml::listData(Subcategoria::model()->findAll(),'id_subcategoria','nombre');
+        }
+        
+        public static function getSubcategoria($id){
+            return Subcategoria::model()->findByPk(array('id_subcategoria'=>$id))->nombre;
+        }
+        
+        public static function getListCategoria(){
+            return CHtml::listData(Categoria::model()->findAll(),'id_categoria','nombre');
+            //return CHtml::listData(Subcategoria::model()->findAll(),'id_subcategoria','idCategoria->nombre');
+        }
+        
+        public static function getCategoria($id){
+            return Subcategoria::model()->findByPk(array('id_subcategoria'=>$id))->idCategoria->nombre;
+        }
+        
+        public static function getListEstado(){
+            return CHtml::listData(Inventario::model()->findAll(),'estado','estado');
+        }
+        
+        public static function getEstado($id){
+            return Inventario::model()->findByPk(array('id_inventario'=>$id))->estado;
+        }
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

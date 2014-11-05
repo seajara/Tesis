@@ -3,14 +3,15 @@
 /* @var $model Solicitud */
 
 $this->breadcrumbs=array(
-	'Solicitudes'=>array('index'),
-	$model->id_solicitud,
+	'Mis Solicitudes'=>array('admin_postulante'),
+	//$model->id_solicitud,
 );
 
 $this->menu=array(
-	array('label'=>'Lista de Solicitudes', 'url'=>array('index')),
+        array('label'=>'Mis Solicitudes', 'url'=>array('admin_postulante')),
+	/*array('label'=>'Lista de Solicitudes', 'url'=>array('index')),
 	array('label'=>'Eliminar Solicitud', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id_solicitud),'confirm'=>'¿Está seguro?')),
-	array('label'=>'Buscar  Solicitud', 'url'=>array('admin')),
+	array('label'=>'Buscar  Solicitud', 'url'=>array('admin')),*/
 );
 ?>
 
@@ -22,7 +23,7 @@ $this->menu=array(
 		'id_solicitud',
 		'id_compania',
 		'id_comuna',
-                'id_cuenta_postulante',
+                'id_usuario',
 		'rut',
 		'nombre',
 		'ap_paterno',

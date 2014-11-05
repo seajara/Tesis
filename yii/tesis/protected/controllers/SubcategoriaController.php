@@ -27,7 +27,7 @@ class SubcategoriaController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			/*array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
@@ -38,6 +38,10 @@ class SubcategoriaController extends Controller
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
+			),*/
+                        array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view', 'admin', 'create', 'update', 'delete'),
+				'roles'=>array('direccion','capitania'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -71,7 +75,7 @@ class SubcategoriaController extends Controller
 		{
 			$model->attributes=$_POST['Subcategoria'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_subcategoria));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('create',array(
@@ -95,7 +99,7 @@ class SubcategoriaController extends Controller
 		{
 			$model->attributes=$_POST['Subcategoria'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_subcategoria));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('update',array(

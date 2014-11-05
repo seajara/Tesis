@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Administrar Hojas de Vida</h1>
+<!--<h1>Administrar Hojas de Vida</h1>-->
 
 <!--<p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -52,7 +52,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'nombre',		
 		'ap_paterno',
 		'ap_materno',
-		'direccion',
+		//'direccion',
 		'email',
 		/*'estado_civil',
 		'profesion',

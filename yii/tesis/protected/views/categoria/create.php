@@ -4,7 +4,7 @@
 
 $this->breadcrumbs=array(
 	'Categorias'=>array('index'),
-	'Create',
+	'Agregar',
 );
 
 $this->menu=array(
@@ -13,6 +13,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create Categoria</h1>
+<h1>Agregar Categoría</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

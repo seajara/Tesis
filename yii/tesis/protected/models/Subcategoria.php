@@ -60,8 +60,8 @@ class Subcategoria extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_subcategoria' => 'Id Subcategoria',
-			'id_categoria' => 'Id Categoria',
+			'id_subcategoria' => 'Código',
+			'id_categoria' => 'Categoría',
 			'nombre' => 'Nombre',
 			'descripcion' => 'Descripcion',
 		);
@@ -94,7 +94,15 @@ class Subcategoria extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
+        
+        public static function getListCategoria(){
+            return CHtml::listData(Categoria::model()->findAll(),'id_categoria','nombre');
+        }
+        
+         public static function getCategoria($id){
+            return Categoria::model()->findByPk(array('id_categoria'=>$id))->nombre;
+        }
+        
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

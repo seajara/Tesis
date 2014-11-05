@@ -17,8 +17,8 @@
 	<?php echo CHtml::encode($data->id_comuna); ?>
 	<br />
         
-        <b><?php echo CHtml::encode($data->getAttributeLabel('id_cuenta_postulante')); ?>:</b>
-	<?php echo CHtml::encode($data->id_cuenta_postulante); ?>
+        <b><?php echo CHtml::encode($data->getAttributeLabel('id_usuario')); ?>:</b>
+	<?php echo CHtml::encode($data->id_usuario); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('rut')); ?>:</b>

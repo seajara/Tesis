@@ -16,6 +16,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update Categoria <?php echo $model->id_categoria; ?></h1>
+<h1>Actualizar Categoría</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

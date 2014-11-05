@@ -3,12 +3,12 @@
 /* @var $model Solicitud */
 
 $this->breadcrumbs=array(
-	'Solicitudes Recibidas'=>array('index'),
+	//'Solicitudes Recibidas'=>array('index'),
 	'Buscar',
 );
 
 $this->menu=array(
-	array('label'=>'Lista de Solicitudes', 'url'=>array('index')),
+	array('label'=>'Listar de Solicitudes', 'url'=>array('index')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -25,7 +25,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Buscar Solicitud</h1>
+<h1>Solicitudes</h1>
 
 
 <?php echo CHtml::link('Búsqueda Avanzada','#',array('class'=>'search-button')); ?>
@@ -34,20 +34,19 @@ $('.search-form form').submit(function(){
 	'model'=>$model,
 )); ?>
 </div><!-- search-form -->
-
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'solicitud-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
 		'id_solicitud',
-		//'id_solicitud',
 		//'id_compania',
 		//'id_comuna',
-                //'id_cuenta_postulante',
+                //'id_usuario',
 		'rut',
 		'nombre',
 		'ap_paterno',
+                'patrocinador',
 		/*
 		'ap_materno',
 		'fecha_nac',

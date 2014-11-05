@@ -5,17 +5,16 @@
 $this->breadcrumbs=array(
 	'Inventarios'=>array('index'),
 	$model->id_inventario=>array('view','id'=>$model->id_inventario),
-	'Update',
+	'Actualizar',
 );
 
 $this->menu=array(
-	array('label'=>'List Inventario', 'url'=>array('index')),
-	array('label'=>'Create Inventario', 'url'=>array('create')),
-	array('label'=>'View Inventario', 'url'=>array('view', 'id'=>$model->id_inventario)),
-	array('label'=>'Manage Inventario', 'url'=>array('admin')),
+	array('label'=>'Agregar Elemento', 'url'=>array('create')),
+	array('label'=>'Ver Elemento', 'url'=>array('view', 'id'=>$model->id_inventario)),
+	array('label'=>'Buscar Elemento', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Update Inventario <?php echo $model->id_inventario; ?></h1>
+<h1>Actualizar Datos</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>
