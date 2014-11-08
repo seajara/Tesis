@@ -1,1 +1,1 @@
-<?php echo $myValue ?>
+<?php echo $myValue; ?>

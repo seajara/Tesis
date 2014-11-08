@@ -32,6 +32,11 @@ class Solicitud extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
+         public $email;
+         public $cc;
+         public $asunto;
+         public $contenido;
+         
 	public function tableName()
 	{
 		return 'solicitud';
@@ -45,7 +50,7 @@ class Solicitud extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_compania, id_comuna, id_usuario, rut, nombre, ap_paterno, ap_materno, patrocinador, rut_pat, estado', 'required'),
+			array('id_compania, id_comuna, id_usuario, rut, nombre, ap_paterno, ap_materno, patrocinador, rut_pat, estado, email, contenido', 'required'),
 			array('id_compania', 'numerical', 'integerOnly'=>true),
 			array('id_comuna', 'length', 'max'=>5),
                         array('id_usuario', 'length', 'max'=>11),
@@ -54,6 +59,7 @@ class Solicitud extends CActiveRecord
 			array('ap_paterno, ap_materno', 'length', 'max'=>15),
 			array('estado_civil, estado', 'length', 'max'=>10),
 			array('direccion, trabajo, calidad', 'length', 'max'=>50),
+                        array('email', 'email'),
 			array('fecha_nac', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -99,6 +105,8 @@ class Solicitud extends CActiveRecord
 			'patrocinador' => 'Patrocinador',
 			'rut_pat' => 'Rut del Patrocinador',
 			'estado' => 'Estado',
+                        'email' => 'Destinatario'
+                        
 		);
 	}
 

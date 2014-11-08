@@ -128,6 +128,14 @@
             </td>
         </tr>
     </table>
+    <div class="row">
+        <?php echo $form->hiddenField($model, 'email', array('disabled'=>true, 'size' => 30, 'maxlength' => 30, 'value' => $usuario->email)); ?>
+        <?php echo $form->error($model, 'email'); ?>
+    </div>
+    <div class="row">
+        <?php echo $form->hiddenField($model, 'contenido', array('disabled'=>true, 'maxlength' => 300, 'value'=>'en espera')); ?>
+        <?php echo $form->error($model, 'contenido'); ?>
+    </div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Enviar' : 'Aceptar'); ?>

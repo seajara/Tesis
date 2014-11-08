@@ -25,9 +25,7 @@
 
         <div class="row">
 		<?php //echo $form->labelEx($model,'id_usuario'); ?>
-		<?php $usuario =  Usuario::model()->findByAttributes(array('login'=>Yii::app()->user->name));
-                      echo $form->hiddenField($model,'id_usuario',array('value'=>$usuario->id_usuario)); 
-                ?>
+		<?php echo $form->hiddenField($model,'id_usuario'); ?>
 		<?php echo $form->error($model,'id_usuario'); ?>
 	</div>
 
@@ -118,14 +116,24 @@
             </td>
         </tr>
     </table>
+    <h3>Enviar Correo</h3>
+
     <div class="row">
-        <label>Correo: </label> <input name="correo" id="correo" type="text"/>
+        <?php echo $form->labelEx($model, 'email'); ?>
+        <?php echo $form->textField($model, 'email', array('size' => 30, 'maxlength' => 30, 'value' => $model->idUsuario->email)); ?>
+        <?php echo $form->error($model, 'email'); ?>
     </div>
     <div class="row">
-        <textarea type="text" value="hola"></textarea>
+        <?php $contenido = "Estimado " . $model->nombre
+                    . " has sido aceptado por nuestra compañía de bomberos, y para concretar tu incorporación"
+                    . " a nuestra institución, necesitamos que te dirijas a nuestro cuartel a la brevedad y presentes la información"
+                    . " solicitada. Dicha documentación puedes encontrarla en la sección de Ver instructivos. "
+                    . " Te esperamos!";
+            echo $form->textArea($model, 'contenido', array('value'=>$contenido, 'maxlength' => 300, 'style'=> 'width:500px; height:120px;')); ?>
+        <?php echo $form->error($model, 'contenido'); ?>
     </div>
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Guardar', array('confirm'=>'¿Está seguro de su respuesta?')); //envia al action donde se debe enviar el correo?> 
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Guardar', array('confirm'=>'¿Está seguro de enviar la respuesta?')); //envia al action donde se debe enviar el correo?> 
 	</div>
 
 <?php $this->endWidget(); ?>

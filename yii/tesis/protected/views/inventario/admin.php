@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
 ?>
 
 <div id="data">
-  
+    <?php echo $myValue; ?>
 </div>
  
 <?php /*$form=$this->beginWidget('CActiveForm', array(
@@ -39,7 +39,7 @@ $('.search-form form').submit(function(){
 )); */?>
 <div class="row">
     <?php
-        //echo CHtml::ajaxButton("Update data", CController::createUrl('inventario/UpdateAjax'), array('update' => '#data'));
+        echo CHtml::ajaxButton("Update data", CController::createUrl('inventario/UpdateAjax'), array('update' => '#data'));
     ?>
 </div>
 

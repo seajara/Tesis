@@ -28,11 +28,11 @@ class SolicitudController extends Controller
 	{           
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'vista', 'admin', 'delete', 'revision'),
+				'actions'=>array('index','view', 'admin', 'delete', 'revision'),
 				'roles'=>array('direccion','capitania'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view', 'vista', 'create','update','delete','admin_postulante'),
+				'actions'=>array('index', 'create','update','delete','admin_postulante'),
 				'roles'=>array('postulante'),
 			),
 			/*array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -79,7 +79,7 @@ class SolicitudController extends Controller
 		{
 			$model->attributes=$_POST['Solicitud'];
 			if($model->save())
-				$this->redirect(array('vista','id'=>$model->id_solicitud));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('create',array(
@@ -106,7 +106,7 @@ class SolicitudController extends Controller
 		{
 			$model->attributes=$_POST['Solicitud'];
 			if($model->save())
-				$this->redirect(array('admin','id'=>$model->id_solicitud));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('update',array(
@@ -174,41 +174,15 @@ class SolicitudController extends Controller
 
 		if(isset($_POST['Solicitud']))
 		{
-                    if(isset($_POST['correo'])){
-                    $this->redirect(array('index'));}
+                    
 			$model->attributes=$_POST['Solicitud'];
-                        if($model->estado=='Aceptado'){
-                            $usuario=  Usuario::model()->findByPk(array('id_usuario'=>$model->id_usuario));
-                            $email=$usuario->email;
-                            Yii::import("ext.Mailer.*");
-                            $mail=new PHPMailer();
-                            $mail->IsSMTP(); // telling the class to use SMTP
-                            //$mail->Host       = "mail.yourdomain.com"; // SMTP server
-                            //$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
-                            // 1 = errors and messages
-                            // 2 = messages only
-                            $mail->SMTPAuth   = true;                  // enable SMTP authentication
-                            $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-                            $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-                            $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-                            $mail->Username   = "plataforma.sexta.chillan@gmail.com";  // GMAIL username
-                            $mail->Password   = "sextachillan";            // GMAIL password
-                            $mail->CharSet = 'UTF-8';
-                            $mail->setFrom("plataforma.sexta.chillan@gmail.com","Sexta Compañía de Bomberos Chillán");
-                            $mail->Subject="Solicitud de incorporación";
-                            $mail->msgHTML("<p>Estimado ".$model->nombre
-                                    . " has sido aceptado por nuestra compañía de bomberos, y para concretar tu incorporación"
-                                    . " a nuestra institución, necesitamos que te dirijas a nuestro cuartel a la brevedad y presentes la información"
-                                    . " solicitada. Dicha documentación puedes encontrarla en la sección de Ver instructivos.</p>"
-                                    . "</br><p>Te esperamos!");
-                            $mail->addAddress($email,"Sexta Compañía de Bomberos Chillán");
-                            //$mail->IsHTML(true);
-                            $mail->send();
+                        if($model->estado=='Aceptado'||$model->estado=='Rechazado'){
+                            $this->enviarCorreo($model);
                         }
 			if($model->save())
-				$this->redirect(array('admin','id'=>$model->id_solicitud));
+				$this->redirect(array('admin'));
 		}
-
+                
 		$this->render('revision',array(
 			'model'=>$model,
 		));
@@ -242,20 +216,28 @@ class SolicitudController extends Controller
 		}
 	}
         
-        public function SendMail()
-        {   
-            $message = new YiiMailMessage;
-               //this points to the file test.php inside the view path
-            $message->view = "test";
-            $sid                 = 1;
-            $criteria            = new CDbCriteria();
-            $criteria->condition = "id_usuario=".$sid."";            
-            $studModel1          = Usuario::model()->findByPk($sid);   
-            $params              = array('myMail'=>$studModel1);
-            $message->subject    = 'My TestSubject';
-            $message->setBody($params, 'text/html');                
-            $message->addTo('seajara@alumnos.ubiobio.cl');
-            $message->from = 'cbas014@gmail.com';   
-            Yii::app()->mail->send($message);       
-        }
+        protected function enviarCorreo($model) {
+            //$usuario = Usuario::model()->findByPk($model->id_usuario);            
+            $email = $model->email;
+            Yii::import("ext.Mailer.*");
+            $mail = new PHPMailer();
+            $mail->IsSMTP(); // telling the class to use SMTP
+            //$mail->Host       = "mail.yourdomain.com"; // SMTP server
+            //$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+            // 1 = errors and messages
+            // 2 = messages only
+            $mail->SMTPAuth = true;                  // enable SMTP authentication
+            $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
+            $mail->Host = "smtp.gmail.com";      // sets GMAIL as the SMTP server
+            $mail->Port = 587;                   // set the SMTP port for the GMAIL server
+            $mail->Username = "plataforma.sexta.chillan@gmail.com";  // GMAIL username
+            $mail->Password = "sextachillan";            // GMAIL password
+            $mail->CharSet = 'UTF-8';
+            $mail->setFrom("plataforma.sexta.chillan@gmail.com", "Sexta Compañía de Bomberos Chillán");
+            $mail->Subject = "Solicitud de incorporación";
+            $mail->msgHTML("<p>".$model->contenido."</p>");
+            $mail->addAddress($email, "Sexta Compañía de Bomberos Chillán");
+            //$mail->IsHTML(true);
+            $mail->send();
+    }
 }

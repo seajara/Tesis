@@ -133,6 +133,23 @@ class InventarioController extends Controller
                 
 	}
         
+        public function actionAdmin()
+	{       
+                $data = array();
+                $data["myValue"] = "Content loaded";
+                
+		$model=new Inventario('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Inventario']))
+			$model->attributes=$_GET['Inventario'];
+                
+                //$this->render('admin', $data);
+
+		$this->render('admin',array(
+			'model'=>$model, 'myValue'=>$data["myValue"],
+		));
+	}
+        
         public function actionUpdateAjax()
         {
         $data = array();
@@ -156,22 +173,6 @@ class InventarioController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
-	{       
-                $data = array();
-                $data["myValue"] = "Content loaded";
-                
-		$model=new Inventario('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Inventario']))
-			$model->attributes=$_GET['Inventario'];
-                
-                //$this->render('admin', $data);
-
-		$this->render('admin',array(
-			'model'=>$model, 'myValue'=>$data["myValue"],
-		));
-	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
