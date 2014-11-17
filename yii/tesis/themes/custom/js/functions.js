@@ -1,7 +1,15 @@
 
-function prueba(){
-    alert("holi");
+function filtrarCategoria(){
+    document.getElementById("filtro-form").submit();
 }
+
+/*function setearFecha(){
+    var dia = document.getElementById("dia").value;
+    var mes = document.getElementById("mes").value;
+    var anho = document.getElementById("anho").value;
+    var fecha = anho+"-"+mes+"-"+dia;
+    document.getElementById("fecha_nac").value=fecha;
+}*/
 
 function ajaxget(){
         var conexion;

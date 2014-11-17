@@ -1,3 +1,4 @@
+<h1>Inventario</h1>
 <?php
 /* @var $this InventarioController */
 /* @var $model Inventario */
@@ -24,26 +25,48 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-
-<div id="data">
-    <?php echo $myValue; ?>
-</div>
  
-<?php /*$form=$this->beginWidget('CActiveForm', array(
-	'id'=>'filtro-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
-	'enableAjaxValidation'=>false,
-)); */?>
+<div class="form">
+    <?php $form=$this->beginWidget('CActiveForm', array(
+            'id'=>'filtro-form',
+            // Please note: When you enable ajax validation, make sure the corresponding
+            // controller action is handling ajax validation correctly.
+            // There is a call to performAjaxValidation() commented in generated controller code.
+            // See class documentation of CActiveForm for details on this.
+            'enableAjaxValidation'=>false,
+    )); ?>
+	<?php echo $form->errorSummary($model); ?>
+	<div class="row">
+		<?php echo $form->labelEx($modelFiltro,'id_categoria'); ?>
+		<?php 
+                      $categorias = Categoria::model()->findAll(array('order' => 'nombre')); 
+                      $lista = CHtml::listData($categorias,'id_categoria','nombre');
+                      echo $form->dropDownList($modelFiltro,'id_categoria',$lista,array('empty'=>'Todas', 'onchange'=>'Javascript:filtrarCategoria()'));
+                ?>
+		<?php echo $form->error($modelFiltro,'id_categoria'); ?>
+	</div>
+        <div class="row buttons">
+		<?php //echo CHtml::submitButton($model->isNewRecord ? 'Buscar' : 'Buscar'); ?>
+	</div>
+    <div class="row buttons">
+        <?php /*echo CHtml::ajaxSubmitButton('Submit Ajax',
+            CController::createUrl('inventario/UpdateAjax'),
+            array(
+                    'type'=>'POST',
+                    'data'=>array('update' => '#data1'),
+                    'replace' => '#data1',                                   
+            )      
+            ); */    
+        ?>
+    </div>
+        <?php $this->endWidget(); ?>
+</div>
 <div class="row">
     <?php
-        echo CHtml::ajaxButton("Update data", CController::createUrl('inventario/UpdateAjax'), array('update' => '#data'));
+        //echo CHtml::ajaxButton("Update data", CController::createUrl('inventario/UpdateAjax', array("id"=>1)), array('update' => '#data1'));
     ?>
 </div>
 
-<h1>Inventario</h1>
 <div class="row" style="text-align: right">
 <?php //echo CHtml::link('Búsqueda Avanzada','#',array('class'=>'search-button'));
     echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl."/images/pdf.png","PDF",array("title"=>"Exportar a PDF", "width"=>"50px")),array("pdf"),array('target'=>'_blank'));                
@@ -58,6 +81,7 @@ $('.search-form form').submit(function(){
 )); ?>
 </div><!-- search-form -->
 
+<div id="data1">
 <?php  
         $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'inventario-grid',
@@ -75,7 +99,7 @@ $('.search-form form').submit(function(){
                     'name'=>'id_subcategoria',
                     'header'=>'Subcategoría',
                     'value'=>'Inventario::getSubcategoria($data->id_subcategoria)',
-                    'filter'=>Inventario::getListSubcategoria(),
+                    'filter'=>CHtml::listData(Subcategoria::model()->findAll(),'id_subcategoria','nombre'),
                 ),
 		//'id_subcategoria',
 		//'id_compania',
@@ -94,16 +118,19 @@ $('.search-form form').submit(function(){
                     'name'=>'estado',
                     'header'=>'Estado',
                     'value'=>'Inventario::getEstado($data->id_inventario)',
-                    'filter'=>Inventario::getListEstado(),
+                    'filter'=>CHtml::listData(Inventario::model()->findAll(),'estado','estado'),
                     
                 ),
 		array(
-			'class'=>'CButtonColumn',
+                    'class'=>'CButtonColumn',
                     'header'=>'Acciones',
 		),
 	),
 )); ?>
-
+</div>
+<div id="data">
+    
+</div>
 <?php
 /*		
 $this->widget('ext.highcharts.highcharts.HighchartsWidget', array(

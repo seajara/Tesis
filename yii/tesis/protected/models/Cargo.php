@@ -54,7 +54,7 @@ class Cargo extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_cargo' => 'Id Cargo',
+			'id_cargo' => 'ID',
 			'descripcion' => 'Descripcion',
 		);
 	}

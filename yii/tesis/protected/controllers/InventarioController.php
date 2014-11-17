@@ -135,27 +135,43 @@ class InventarioController extends Controller
         
         public function actionAdmin()
 	{       
-                $data = array();
-                $data["myValue"] = "Content loaded";
-                
-		$model=new Inventario('search');
+                $model=new Inventario('search');
 		$model->unsetAttributes();  // clear any default values
+                $data = array();
+                $modelFiltro = new Filtro();
+                if(isset($_POST['Filtro'])){     
+                    $modelFiltro->attributes=$_POST['Filtro'];
+                    if($modelFiltro->id_categoria==''){
+                        $this->render('admin',array(
+                            'model'=>$model, 'modelFiltro'=>$modelFiltro
+                        ));
+                    }else{
+                        $data["model"] = $model;
+                        $data["modelFiltro"] = $modelFiltro;
+                        $data["id_categoria"] = $modelFiltro->id_categoria;
+                        $this->render('_ajaxContent', $data);
+                    }
+                    //$this->renderPartial('_ajaxContent', $data, false, true);
+                    //$this->actionUpdateAjax(1);
+                }else{               
+ 		
 		if(isset($_GET['Inventario']))
 			$model->attributes=$_GET['Inventario'];
                 
                 //$this->render('admin', $data);
 
 		$this->render('admin',array(
-			'model'=>$model, 'myValue'=>$data["myValue"],
-		));
+			'model'=>$model, 'modelFiltro'=>$modelFiltro
+                ));
+                }
 	}
         
         public function actionUpdateAjax()
         {
-        $data = array();
-        $data["myValue"] = "Content updated in AJAX";
- 
-        $this->renderPartial('_ajaxContent', $data, false, true);
+            $data = array();
+            $data["myValue"] = 'se actualizo correctamente';
+            
+                $this->renderPartial('_ajaxContent', $data, false, true);
         }
         
         public function actionPdf(){          

@@ -42,9 +42,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		//'id_compania',
 		//'id_comuna',
                 //'id_usuario',
+                'fecha',
 		'rut',
 		'nombre',
 		'ap_paterno',
+                'fecha_nac',
 		/*
 		'ap_materno',
 		'fecha_nac',

@@ -96,6 +96,11 @@ class Curso extends CActiveRecord
 		));
 	}
         
+        public static function getPrerequisito($id){
+            $id_pre = 0;
+            $id_pre = Curso::model()->findByPk($id)->id_prerequisito;
+            return Curso::model()->findByPk($id_pre)->descripcion;
+        }
         /**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

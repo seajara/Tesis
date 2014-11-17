@@ -50,8 +50,10 @@ class Solicitud extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_compania, id_comuna, id_usuario, rut, nombre, ap_paterno, ap_materno, patrocinador, rut_pat, estado, email, contenido', 'required'),
+			array('id_compania, id_comuna, id_usuario, rut, nombre, ap_paterno, ap_materno, patrocinador, rut_pat, estado, email, contenido, fecha', 'required'),
 			array('id_compania', 'numerical', 'integerOnly'=>true),
+                        array('rut', 'unique'),
+                        //array('rut', 'validateRut'),
 			array('id_comuna', 'length', 'max'=>5),
                         array('id_usuario', 'length', 'max'=>11),
 			array('rut, rut_pat', 'length', 'max'=>12),
@@ -60,10 +62,10 @@ class Solicitud extends CActiveRecord
 			array('estado_civil, estado', 'length', 'max'=>10),
 			array('direccion, trabajo, calidad', 'length', 'max'=>50),
                         array('email', 'email'),
-			array('fecha_nac', 'safe'),
+			array('fecha_nac, fecha', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_solicitud, id_compania, id_comuna, id_usuario, rut, nombre, ap_paterno, ap_materno, fecha_nac, estado_civil, profesion, direccion, trabajo, calidad, patrocinador, rut_pat, estado', 'safe', 'on'=>'search'),
+			array('id_solicitud, id_compania, id_comuna, id_usuario, rut, nombre, ap_paterno, ap_materno, fecha_nac, estado_civil, profesion, direccion, trabajo, calidad, patrocinador, rut_pat, estado, fecha, email, contenido', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -105,6 +107,7 @@ class Solicitud extends CActiveRecord
 			'patrocinador' => 'Patrocinador',
 			'rut_pat' => 'Rut del Patrocinador',
 			'estado' => 'Estado',
+                        'fecha' => 'Fecha Emisión',
                         'email' => 'Destinatario'
                         
 		);
@@ -145,6 +148,7 @@ class Solicitud extends CActiveRecord
 		$criteria->compare('patrocinador',$this->patrocinador,true);
 		$criteria->compare('rut_pat',$this->rut_pat,true);
 		$criteria->compare('estado',$this->estado,true);
+                $criteria->compare('fecha',$this->fecha,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -174,6 +178,7 @@ class Solicitud extends CActiveRecord
 		$criteria->compare('patrocinador',$this->patrocinador,true);
 		$criteria->compare('rut_pat',$this->rut_pat,true);
 		$criteria->compare('estado',$this->estado,true);
+                $criteria->compare('fecha',$this->fecha,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -187,6 +192,38 @@ class Solicitud extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Solicitudrecibidas the static model class
 	 */
+        public function validateRut() {
+            $data = explode('-', $this->rut);
+            $evaluate = strrev($data[0]);
+            $multiply = 2;
+            $store = 0;
+            for ($i = 0; $i < strlen($evaluate); $i++) {
+                $store += $evaluate[$i] * $multiply;
+                $multiply++;
+                if ($multiply > 7)
+                    $multiply = 2;
+            }
+            isset($data[1]) ? $verifyCode = strtolower($data[1]) : $verifyCode = '';
+            $result = 11 - ($store % 11);
+            if ($result == 10)
+                $result = 'k';
+            if ($result == 11)
+                $result = 0;
+            if ($verifyCode != $result)
+                $this->addError('rut', 'Rut inválido.');
+        }
+        
+        public function getFormattedRut() {
+            $unformattedRut = $this->rut;
+            if (strpos($unformattedRut, '-') !== false ) {
+                $splittedRut = explode('-', $unformattedRut);
+                $number = number_format($splittedRut[0], 0, ',', '.');
+                $verifier = strtoupper($splittedRut[1]);
+                return $number . '-' . $verifier;
+            }
+            return number_format($unformattedRut, 0, ',', '.');
+        }
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

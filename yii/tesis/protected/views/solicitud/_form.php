@@ -43,7 +43,7 @@
             </td>
             <td>
                 <?php echo $form->labelEx($model,'rut'); ?>
-		<?php echo $form->textField($model,'rut',array('size'=>30,'maxlength'=>12)); ?>
+		<?php echo $form->textField($model,'rut',array('size'=>30,'maxlength'=>12, "id"=>"rut")); ?>
 		<?php echo $form->error($model,'rut'); ?>
             </td>
         </tr>
@@ -76,13 +76,46 @@
         </tr>
         <tr>
             <td>
+                <div class="row">
                 <?php echo $form->labelEx($model,'fecha_nac'); ?>
-		<?php $this->widget("zii.widgets.jui.CJuiDatePicker", array(
-		"attribute"=>"fecha_nac",
-		"model"=>$model,
-		"language"=>"es",
-		"options"=>array(
-			"dateFormat"=>"yy-mm-dd")))?>
+                <?php  //echo  $form->hiddenField($model, 'fecha_nac', array ("id"=>"fecha_nac")); 
+                    $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+                       'model'=>$model,
+                       'attribute'=>'fecha_nac',
+                       'value'=>$model->fecha_nac,
+                       'language' => 'es',
+                       'htmlOptions' => array('readonly'=>"readonly"),
+                       'options'=>array(
+                        'autoSize'=>true,
+                        'defaultDate'=>$model->fecha_nac,
+                        'dateFormat'=>'yy-mm-dd',
+                        'buttonImage'=>Yii::app()->theme->baseUrl.'/images/calendario.png',
+                        'buttonImageOnly'=>true,
+                        'buttonText'=>'Fecha',
+                        'selectOtherMonths'=>true,
+                        'showAnim'=>'slide',
+                        'showButtonPanel'=>true,
+                        'showOn'=>'button', 
+                        'showOtherMonths'=>true, 
+                        'changeMonth' => 'true', 
+                        'changeYear' => 'true', 
+                        'minDate'=>"-70Y", 
+                        'maxDate'=> '-15Y',
+                        ),
+                      )); 
+                ?> 
+                </div>
+                <?php /*echo CHtml::dropdownList('dia', false, 
+                      array('01'=>'1', '02'=>'2', '03'=>'3', '04'=>'4', '05'=>'5', '06'=>'6', '07'=>'7', '08'=>'8', '09'=>'9', '10'=>'10', '11'=>'11', '12'=>'12', '13'=>'13', 
+                          '14'=>'14', '15'=>'15', '16'=>'16', '17'=>'17', '18'=>'18', '19'=>'19', '20'=>'20', '21'=>'21', '22'=>'22', '23'=>'23', '24'=>'24', '25'=>'25', 
+                          '26'=>'26', '27'=>'27', '28'=>'28', '29'=>'29', '30'=>'30', '31'=>'31'), 
+                      array("id"=>"dia", 'empty'=>'Día')); 
+                ?>
+                <?php echo CHtml::dropdownList('mes', false, 
+                      array('01'=>'Enero', '02'=>'Febrero', '03'=>'Marzo', '04'=>'Abril', '05'=>'Mayo', '06'=>'Junio', '07'=>'Julio', '08'=>'Agosto', '09'=>'Septiembre',
+                          '10'=>'Octubre', '11'=>'Noviembre', '12'=>'Diciembre'), 
+                      array("id"=>"mes", 'empty'=>'Mes')); ?>
+                <?php echo CHtml::dropdownList('anho', false, array('1991'=>'1991', '1992'=>'1992', '1993'=>'1993', '1994'=>'1994'), array("id"=>"anho", 'empty'=>'Año')); */?>
 		<?php echo $form->error($model,'fecha_nac'); ?>
             </td>
             <td>
@@ -118,27 +151,31 @@
         <tr>
             <td>
                 <?php //echo $form->labelEx($model,'calidad'); ?>
-		<?php echo $form->hiddenField($model,'calidad',array('type'=>"hidden")); ?>
+		<?php echo $form->hiddenField($model,'calidad'); ?>
 		<?php echo $form->error($model,'calidad'); ?>
             </td>
             <td>
                 <?php //echo $form->labelEx($model,'estado'); ?>
-		<?php echo $form->hiddenField($model,'estado',array('type'=>"hidden",'value'=>'Pendiente')); ?>
+		<?php echo $form->hiddenField($model,'estado',array('value'=>'Pendiente')); ?>
 		<?php echo $form->error($model,'estado'); ?>
             </td>
         </tr>
     </table>
     <div class="row">
-        <?php echo $form->hiddenField($model, 'email', array('disabled'=>true, 'size' => 30, 'maxlength' => 30, 'value' => $usuario->email)); ?>
+            <?php echo $form->hiddenField($model,'fecha',array('value'=>date("Y-m-d"))); ?>
+	    <?php echo $form->error($model,'fecha'); ?>
+    </div>
+    <div class="row">
+        <?php echo $form->hiddenField($model, 'email', array('size' => 30, 'maxlength' => 30, 'value' => $usuario->email)); ?>
         <?php echo $form->error($model, 'email'); ?>
     </div>
     <div class="row">
-        <?php echo $form->hiddenField($model, 'contenido', array('disabled'=>true, 'maxlength' => 300, 'value'=>'en espera')); ?>
+        <?php echo $form->hiddenField($model, 'contenido', array('maxlength' => 300, 'value'=>'en espera')); ?>
         <?php echo $form->error($model, 'contenido'); ?>
     </div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Enviar' : 'Aceptar'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Enviar' : 'Aceptar', array('onclick'=>'Javascript:setearFecha()', 'onsubmit'=>'javascript:return Rut(document.solicitud-form.rut.value)')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

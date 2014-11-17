@@ -14,7 +14,8 @@
         <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/styles.css"/>
    <!--<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>-->
    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/script.js"></script>
-   <!--<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/functions.js"></script>-->
+   <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/functions.js"></script>
+   <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/validarut.js"></script>
         
 <script type="text/javascript">
 function MM_preloadImages() { //v3.0
@@ -44,10 +45,10 @@ End WOWSlider.com HEAD section -->
 <div id="mainmenu">
 		<?php  $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index')),
+				array('label'=>'Inicio', 'url'=>array('/site/index')),
 				//array('label'=>'Contáctanos', 'url'=>array('/site/contact'),'visible'=>!(Yii::app()->user->checkAccess('direccion')||Yii::app()->user->checkAccess('capitania')||Yii::app()->user->checkAccess('voluntario'))),
 				array('label'=>'Ver Instructivos', 'url'=>array('/site/page', 'view'=>'about'),'visible'=>!(Yii::app()->user->checkAccess('direccion')||Yii::app()->user->checkAccess('capitania')||Yii::app()->user->checkAccess('voluntario'))),
-				array('label'=>'Configuración','url'=>array('/site/page', 'view'=>'about'),'visible'=>!Yii::app()->user->isGuest),
+				array('label'=>'Configuración','url'=>array('/compania/update'),'visible'=>Yii::app()->user->checkAccess('direccion')||Yii::app()->user->checkAccess('capitania')),
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),				
                                 array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),
@@ -98,6 +99,36 @@ End WOWSlider.com HEAD section -->
                      <ul>
                          <li><a href="<?php echo Yii::app()->baseUrl; ?>/subcategoria/admin"><span>Ver Subcategorias</span></a> </li>
                          <li class="last"><a href="<?php echo Yii::app()->baseUrl; ?>/subcategoria/create"><span>Agregar Subcategoria</span></a></li>                   
+                     </ul>
+                 </li>
+              </ul>
+           </li>
+           <?php endif; ?>
+           <?php if(Yii::app()->user->checkAccess('direccion')): ?>
+           <li class='active has-sub'><a href='#'><span>ADMINISTRAR</span></a>
+              <ul>
+                 <li class='has-sub'><a href='#'><span>Usuarios</span></a>
+                     <ul>
+                         <li><a href="<?php echo Yii::app()->baseUrl; ?>/usuario/admin"><span>Ver Usuarios</span></a> </li>
+                         <li><a href="<?php echo Yii::app()->baseUrl; ?>/usuario/create"><span>Crear Usuario</span></a></li>                   
+                     </ul>
+                 </li>
+                 <li class='has-sub'><a href='#'><span>Cargos</span></a>
+                     <ul>
+                         <li><a href="<?php echo Yii::app()->baseUrl; ?>/cargo/admin"><span>Ver Cargos</span></a> </li>
+                         <li class="last"><a href="<?php echo Yii::app()->baseUrl; ?>/cargo/create"><span>Agregar Cargo</span></a></li>                   
+                     </ul>
+                 </li>
+                 <li class='has-sub'><a href='#'><span>Cursos</span></a>
+                     <ul>
+                         <li><a href="<?php echo Yii::app()->baseUrl; ?>/curso/admin"><span>Ver Cursos</span></a> </li>
+                         <li class="last"><a href="<?php echo Yii::app()->baseUrl; ?>/cargo/create"><span>Agregar Curso</span></a></li>                   
+                     </ul>
+                 </li>
+                 <li class='has-sub'><a href='#'><span>Premios</span></a>
+                     <ul>
+                         <li><a href="<?php echo Yii::app()->baseUrl; ?>/premio/admin"><span>Ver Premios</span></a> </li>
+                         <li class="last"><a href="<?php echo Yii::app()->baseUrl; ?>/premio/create"><span>Agregar Premio</span></a></li>                   
                      </ul>
                  </li>
               </ul>

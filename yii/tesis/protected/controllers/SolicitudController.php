@@ -30,6 +30,7 @@ class SolicitudController extends Controller
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view', 'admin', 'delete', 'revision'),
 				'roles'=>array('direccion','capitania'),
+                                //'ips' => array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('index', 'create','update','delete','admin_postulante'),
@@ -76,10 +77,10 @@ class SolicitudController extends Controller
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Solicitud']))
-		{
+		{  
 			$model->attributes=$_POST['Solicitud'];
 			if($model->save())
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin_postulante'));
 		}
 
 		$this->render('create',array(
@@ -106,7 +107,7 @@ class SolicitudController extends Controller
 		{
 			$model->attributes=$_POST['Solicitud'];
 			if($model->save())
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin_postulante'));
 		}
 
 		$this->render('update',array(
@@ -173,8 +174,7 @@ class SolicitudController extends Controller
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Solicitud']))
-		{
-                    
+		{    
 			$model->attributes=$_POST['Solicitud'];
                         if($model->estado=='Aceptado'||$model->estado=='Rechazado'){
                             $this->enviarCorreo($model);

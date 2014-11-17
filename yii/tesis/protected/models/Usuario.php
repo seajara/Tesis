@@ -41,6 +41,8 @@ class Usuario extends CActiveRecord
 			array('nombre, email', 'length', 'max'=>30),
 			array('apellido_paterno, apellido_materno, login, tipo', 'length', 'max'=>20),
 			array('pass', 'length', 'max'=>15),
+                        array('login', 'unique'),
+                        array('email', 'email'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_usuario, id_compania, nombre, apellido_paterno, apellido_materno, login, pass, email, tipo', 'safe', 'on'=>'search'),
@@ -71,8 +73,8 @@ class Usuario extends CActiveRecord
 			'nombre' => 'Nombre',
 			'apellido_paterno' => 'Apellido Paterno',
 			'apellido_materno' => 'Apellido Materno',
-			'login' => 'Login',
-			'pass' => 'Pass',
+			'login' => 'Usuario',
+			'pass' => 'Contraseña',
 			'email' => 'Email',
 			'tipo' => 'Tipo',
 		);
@@ -105,6 +107,7 @@ class Usuario extends CActiveRecord
 		$criteria->compare('pass',$this->pass,true);
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('tipo',$this->tipo,true);
+                //$criteria->compare('tipo',array('direccion', 'capitania', 'voluntario'),true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

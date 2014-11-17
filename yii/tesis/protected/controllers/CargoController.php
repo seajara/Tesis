@@ -75,7 +75,7 @@ class CargoController extends Controller
 		{
 			$model->attributes=$_POST['Cargo'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_cargo));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('create',array(
@@ -99,7 +99,7 @@ class CargoController extends Controller
 		{
 			$model->attributes=$_POST['Cargo'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_cargo));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('update',array(

@@ -19,6 +19,7 @@ $this->menu=array(
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
+                'fecha',
 		'id_solicitud',
 		'id_compania',
 		'id_comuna',

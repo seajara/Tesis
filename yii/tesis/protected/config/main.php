@@ -96,7 +96,9 @@ return array(
 		// uncomment the following to use a MySQL database
 		//para conectarse en forma local
 		'db'=>array(
-                        'class' => 'CDbConnection',
+                        //'class' => 'CDbConnection',
+                        //' class ' => ' application.extensions.PHPPDO.CPdoDbConnection ' ,
+                        //' pdoClass ' => ' PHPPDO ' ,
 			'connectionString' => 'mysql:host=localhost;dbname=ffrancis',
 			'emulatePrepare' => true,
 			'username' => 'root',

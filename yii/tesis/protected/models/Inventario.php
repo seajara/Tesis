@@ -119,15 +119,42 @@ class Inventario extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchBy($subcategorias)
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id_inventario',$this->id_inventario,true);
+                if(!empty($subcategorias)){
+                    $criteria->compare('id_subcategoria',$subcategorias);
+                }else{
+                    $criteria->compare('id_subcategoria',-1);
+                }
+		$criteria->compare('id_compania',$this->id_compania);
+		$criteria->compare('descripcion',$this->descripcion,true);
+		$criteria->compare('proveedor',$this->proveedor,true);
+		$criteria->compare('fecha_in',$this->fecha_in,true);
+		$criteria->compare('responsable',$this->responsable,true);
+		$criteria->compare('movil',$this->movil,true);
+		$criteria->compare('cantidad',$this->cantidad);
+		$criteria->compare('observaciones',$this->observaciones,true);
+		$criteria->compare('estado',$this->estado);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
 	 * @return Inventario the static model class
 	 */
-        public static function getListSubcategoria(){
-            return CHtml::listData(Subcategoria::model()->findAll(),'id_subcategoria','nombre');
+
+        public static function getListSubcategoria($subs){
+            return CHtml::listData($subs,'id_subcategoria','nombre');
         }
         
         public static function getSubcategoria($id){

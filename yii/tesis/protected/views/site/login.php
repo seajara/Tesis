@@ -39,7 +39,9 @@ $this->breadcrumbs=array(
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Login'); ?>
+		<?php //echo CHtml::submitButton('Login'); ?>
+                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl."/images/registrate.jpg","Registrarse",array("title"=>" ", "height"=>"28px")),Yii::app()->baseUrl.'/usuario/registrarse',array("submit"=>array('login'))); ?>
+                <?php echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl."/images/entrar.jpg","Entrar",array("title"=>" ", "width"=>"63px")),'#',array('onclick'=>'document.getElementById("login-form").submit()',"submit"=>array('login'))); ?>             
 	</div>
 
 <?php $this->endWidget(); ?>
