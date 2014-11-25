@@ -2,8 +2,40 @@
 /* @var $this InventarioController */
 /* @var $model Inventario */
 /* @var $form CActiveForm */
+if(empty($id_categoria)){
+    $modelFiltro = new Filtro;
+    $subcategorias = Subcategoria::model()->findAll(array('order' => 'nombre'));
+}else{
+    echo "<h1>Agregar Elemento</h1>";
+    $subcategorias = Subcategoria::model()->findAllByAttributes(array('id_categoria'=>$id_categoria),array('order' => 'nombre'));
+}
 ?>
-
+<p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
+<div class="form">
+            <?php $form=$this->beginWidget('CActiveForm', array(
+            'id'=>'filtro-form',
+            // Please note: When you enable ajax validation, make sure the corresponding
+            // controller action is handling ajax validation correctly.
+            // There is a call to performAjaxValidation() commented in generated controller code.
+            // See class documentation of CActiveForm for details on this.
+            'enableAjaxValidation'=>false,
+    )); ?>
+            <?php 
+                echo $form->labelEx($modelFiltro,'id_categoria'); ?>
+		<?php 
+                      $categorias = Categoria::model()->findAll(array('order' => 'nombre')); 
+                      $lista = CHtml::listData($categorias,'id_categoria','nombre');
+                      echo $form->dropDownList($modelFiltro,'id_categoria',$lista,array('empty'=>'Todas', 'onchange'=>'Javascript:filtrarCategoria()'));
+                ?>
+		<?php echo $form->error($modelFiltro,'id_categoria'); ?>
+		<?php echo $form->hiddenField($modelFiltro,'id_dependencia', array('value'=>1));
+                ?>
+            <?php $this->endWidget(); ?>
+            <?php /*
+                $myValue = 'hola';
+                $this->renderPartial('_div', array('myValue'=>$myValue, 'model'=>$model, 'form'=>$form)); */
+            ?>
+</div>
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -15,7 +47,7 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
+	
 
 	<?php echo $form->errorSummary($model); ?>
         <table>
@@ -28,7 +60,7 @@
                 <td>
                     <?php echo $form->labelEx($model,'id_subcategoria'); ?>
                     <?php //echo $form->textField($model,'id_subcategoria'); 
-                    $subcategorias = Subcategoria::model()->findAll(array('order' => 'nombre')); 
+                    //$subcategorias = Subcategoria::model()->findAll(array('order' => 'nombre')); 
                     // format models as $key=>$value with listData
                     $lista = CHtml::listData($subcategorias,'id_subcategoria','nombre');
                     echo $form->dropDownList($model,'id_subcategoria',$lista,array('empty'=>'Seleccione una Subcategoria'));?>         
@@ -91,12 +123,12 @@
                     <?php echo $form->error($model, 'responsable'); ?>
                 </td>
                 <td>
-                    <?php echo $form->labelEx($model, 'movil'); ?>
-                    <?php
-                    //echo $form->textField($model,'movil',array('size'=>30,'maxlength'=>50)); 
-                    echo $form->dropDownList($model, 'movil', array('' => '', 'B-6' => 'B-6', 'Z-6' => 'Z-6'));
-                    ?>
-                    <?php echo $form->error($model, 'movil'); ?>	
+                    <?php echo $form->labelEx($model,'id_dependencia'); ?>
+                    <?php 
+                    $dependencias = Dependencia::model()->findAll(array('order' => 'nombre')); 
+                    $lista = CHtml::listData($dependencias,'id_dependencia','nombre');
+                    echo $form->dropDownList($model,'id_dependencia',$lista,array('empty'=>'Seleccione una Dependencia'));?>         
+                    <?php echo $form->error($model,'id_dependencia'); ?>
                 </td>
             </tr>
             <tr>
@@ -114,6 +146,7 @@
                 </td>
             </tr> 
         </table>
+     
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Agregar' : 'Modificar'); ?>
 	</div>
@@ -121,3 +154,9 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+   
+ 
+        <?php /*echo CHtml::ajaxButton ("Update data",
+                              CController::createUrl('inventario/UpdateAjax'), 
+                              array('update' => '#data'), array('id'=>'ajaxBtn'));*/
+        ?>

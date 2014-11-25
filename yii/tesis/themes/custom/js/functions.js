@@ -3,6 +3,14 @@ function filtrarCategoria(){
     document.getElementById("filtro-form").submit();
 }
 
+function filtrarDependencia(){
+    document.getElementById("filtro-form").submit();
+}
+
+function send(){
+    document.getElementById("ajaxBtn").click();
+}
+
 /*function setearFecha(){
     var dia = document.getElementById("dia").value;
     var mes = document.getElementById("mes").value;

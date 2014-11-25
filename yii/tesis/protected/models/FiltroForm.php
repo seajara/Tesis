@@ -1,9 +1,8 @@
 <?php
 
-class Filtro extends CActiveRecord {
+class FiltroForm extends CActiveRecord {
 
     public $id_categoria;
-    public $id_dependencia;
     /**
      * @return string the associated database table name
      */
@@ -18,14 +17,13 @@ class Filtro extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id_categoria, id_dependencia', 'required'),
+            array('id_categoria', 'required'),
         );
     }
 
     public function attributeLabels() {
         return array(
             'id_categoria' => 'Categoria',
-            'id_dependencia' => 'Dependencia',
         );
     }
 

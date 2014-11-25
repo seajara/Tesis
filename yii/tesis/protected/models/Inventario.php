@@ -7,11 +7,11 @@
  * @property string $id_inventario
  * @property integer $id_subcategoria
  * @property integer $id_compania
+ * @property integer $id_dependencia
  * @property string $descripcion
  * @property string $proveedor
  * @property string $fecha_in
  * @property string $responsable
- * @property string $movil
  * @property integer $cantidad
  * @property string $observaciones
  * @property integer $estado
@@ -37,19 +37,17 @@ class Inventario extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_inventario, id_subcategoria, id_compania, descripcion, fecha_in', 'required'),
-			array('id_subcategoria, id_compania', 'numerical', 'integerOnly'=>true),
-			array('id_inventario', 'length', 'max'=>15),
-                       array('id_inventario' ,'unique'),
+			array('id_inventario, id_subcategoria, id_compania, id_dependencia, descripcion, fecha_in', 'required'),
+			array('id_subcategoria, id_compania, id_dependencia', 'numerical', 'integerOnly'=>true),
+                        array('id_inventario' ,'unique'),
                         array('cantidad' ,'numerical', 'min'=>1),
                         //array('fecha_in', 'default', 'setOnEmpty'=>''),
 			array('descripcion, observaciones', 'length', 'max'=>200),
 			array('proveedor, responsable', 'length', 'max'=>50),
-			array('movil', 'length', 'max'=>20),
                         array('estado', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_inventario, id_subcategoria, id_compania, descripcion, proveedor, fecha_in, responsable, movil, cantidad, observaciones, estado', 'safe', 'on'=>'search'),
+			array('id_inventario, id_subcategoria, id_compania, id_dependencia, descripcion, proveedor, fecha_in, responsable, cantidad, observaciones, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,11 +72,11 @@ class Inventario extends CActiveRecord
 			'id_inventario' => 'Código',
 			'id_subcategoria' => 'Subcategoria',
 			'id_compania' => 'Compania',
+                        'id_dependencia' => 'Dependencia',
 			'descripcion' => 'Nombre',
 			'proveedor' => 'Proveedor',
 			'fecha_in' => 'Fecha Incorporación',
 			'responsable' => 'Responsable',
-			'movil' => 'Movil',
 			'cantidad' => 'Cantidad',
 			'observaciones' => 'Observaciones',
 			'estado' => 'Estado',
@@ -106,11 +104,11 @@ class Inventario extends CActiveRecord
 		$criteria->compare('id_inventario',$this->id_inventario,true);
 		$criteria->compare('id_subcategoria',$this->id_subcategoria);
 		$criteria->compare('id_compania',$this->id_compania);
+                $criteria->compare('id_dependencia',$this->id_dependencia);
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('proveedor',$this->proveedor,true);
 		$criteria->compare('fecha_in',$this->fecha_in,true);
 		$criteria->compare('responsable',$this->responsable,true);
-		$criteria->compare('movil',$this->movil,true);
 		$criteria->compare('cantidad',$this->cantidad);
 		$criteria->compare('observaciones',$this->observaciones,true);
 		$criteria->compare('estado',$this->estado);
@@ -120,24 +118,40 @@ class Inventario extends CActiveRecord
 		));
 	}
         
-        public function searchBy($subcategorias)
+        public function searchBy($subcategorias, $id_dependencia)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_inventario',$this->id_inventario,true);
-                if(!empty($subcategorias)){
+                /*if(!empty($subcategorias)){
                     $criteria->compare('id_subcategoria',$subcategorias);
                 }else{
                     $criteria->compare('id_subcategoria',-1);
+                }*/
+                if(empty($subcategorias)&&empty($id_dependencia)){
+                    $criteria->compare('id_subcategoria',-1);
+                    $criteria->compare('id_dependencia',$this->id_dependencia);
+                }else{
+                    if(empty($subcategorias)){
+                        $criteria->compare('id_subcategoria',-1);
+                        $criteria->compare('id_dependencia',$id_dependencia);
+                    }else{
+                        if(empty($id_dependencia)){
+                            $criteria->compare('id_subcategoria',$subcategorias);
+                            $criteria->compare('id_dependencia',$this->id_dependencia);
+                        }else{
+                            $criteria->compare('id_subcategoria',$subcategorias);
+                            $criteria->compare('id_dependencia',$id_dependencia);
+                        }   
+                    }
                 }
 		$criteria->compare('id_compania',$this->id_compania);
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('proveedor',$this->proveedor,true);
 		$criteria->compare('fecha_in',$this->fecha_in,true);
 		$criteria->compare('responsable',$this->responsable,true);
-		$criteria->compare('movil',$this->movil,true);
 		$criteria->compare('cantidad',$this->cantidad);
 		$criteria->compare('observaciones',$this->observaciones,true);
 		$criteria->compare('estado',$this->estado);

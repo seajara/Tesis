@@ -28,7 +28,10 @@ $('.search-form form').submit(function(){
 <h1>Solicitudes</h1>
 
 
-<?php echo CHtml::link('Búsqueda Avanzada','#',array('class'=>'search-button')); ?>
+<?php //echo CHtml::link('Búsqueda Avanzada','#',array('class'=>'search-button')); ?>
+<?php //echo CHtml::link('Búsqueda Avanzada','#',array('class'=>'search-button'));
+    echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl."/images/busquedaavanzada.png","PDF",array('class'=>'search-button',"title"=>"Exportar a PDF", "width"=>"50px")),array("pdf"),array('target'=>'_blank'));                
+?>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,

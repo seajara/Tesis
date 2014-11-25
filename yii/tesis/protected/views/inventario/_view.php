@@ -30,9 +30,6 @@
 	<br />
         <br />
 	<?php /*
-	<b><?php echo CHtml::encode($data->getAttributeLabel('movil')); ?>:</b>
-	<?php echo CHtml::encode($data->movil); ?>
-	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('id_compania')); ?>:</b>
 	<?php echo CHtml::encode($data->id_compania); ?>

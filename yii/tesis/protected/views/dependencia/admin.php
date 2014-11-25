@@ -1,15 +1,15 @@
 <?php
-/* @var $this PremioController */
-/* @var $model Premio */
+/* @var $this DependenciaController */
+/* @var $model Dependencia */
 
 $this->breadcrumbs=array(
-	'Premios'=>array('index'),
+	'Dependencias'=>array('index'),
 	'Manage',
 );
 
 $this->menu=array(
-	array('label'=>'List Premio', 'url'=>array('index')),
-	array('label'=>'Create Premio', 'url'=>array('create')),
+	array('label'=>'List Dependencia', 'url'=>array('index')),
+	array('label'=>'Create Dependencia', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -18,7 +18,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$('#premio-grid').yiiGridView('update', {
+	$('#dependencia-grid').yiiGridView('update', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Administrar Premios</h1>
+<h1>Administrar Dependencias</h1>
 
 <?php echo CHtml::link('Búsqueda Avanzada','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
@@ -36,15 +36,21 @@ $('.search-form form').submit(function(){
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'premio-grid',
+	'id'=>'dependencia-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id_premio',
-		'descripcion',
+		'id_dependencia',
+		//'id_compania',
+		'nombre',
+		//'tipo',
+                array(
+                    'name'=>'tipo',
+                    'filter'=>  CHtml::listData(Dependencia::model()->findAll(),'id_dependencia','tipo'),
+                    'value'=>'($data->tipo==1) ? "Compañía":"Móvil";',
+                ),
 		array(
 			'class'=>'CButtonColumn',
-                        'template'=>'{update}{delete}',
 		),
 	),
 )); ?>

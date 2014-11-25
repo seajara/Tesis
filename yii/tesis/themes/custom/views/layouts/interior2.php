@@ -104,7 +104,7 @@ End WOWSlider.com HEAD section -->
               </ul>
            </li>
            <?php endif; ?>
-           <?php if(Yii::app()->user->checkAccess('direccion')): ?>
+           <?php if(Yii::app()->user->checkAccess('direccion')||Yii::app()->user->checkAccess('capitania')): ?>
            <li class='active has-sub'><a href='#'><span>ADMINISTRAR</span></a>
               <ul>
                  <li class='has-sub'><a href='#'><span>Usuarios</span></a>
@@ -113,6 +113,7 @@ End WOWSlider.com HEAD section -->
                          <li><a href="<?php echo Yii::app()->baseUrl; ?>/usuario/create"><span>Crear Usuario</span></a></li>                   
                      </ul>
                  </li>
+                 <?php if(Yii::app()->user->checkAccess('direccion')): ?>
                  <li class='has-sub'><a href='#'><span>Cargos</span></a>
                      <ul>
                          <li><a href="<?php echo Yii::app()->baseUrl; ?>/cargo/admin"><span>Ver Cargos</span></a> </li>
@@ -122,7 +123,7 @@ End WOWSlider.com HEAD section -->
                  <li class='has-sub'><a href='#'><span>Cursos</span></a>
                      <ul>
                          <li><a href="<?php echo Yii::app()->baseUrl; ?>/curso/admin"><span>Ver Cursos</span></a> </li>
-                         <li class="last"><a href="<?php echo Yii::app()->baseUrl; ?>/cargo/create"><span>Agregar Curso</span></a></li>                   
+                         <li class="last"><a href="<?php echo Yii::app()->baseUrl; ?>/curso/create"><span>Agregar Curso</span></a></li>                   
                      </ul>
                  </li>
                  <li class='has-sub'><a href='#'><span>Premios</span></a>
@@ -131,6 +132,7 @@ End WOWSlider.com HEAD section -->
                          <li class="last"><a href="<?php echo Yii::app()->baseUrl; ?>/premio/create"><span>Agregar Premio</span></a></li>                   
                      </ul>
                  </li>
+                 <?php endif; ?>
               </ul>
            </li>
            <?php endif; ?>

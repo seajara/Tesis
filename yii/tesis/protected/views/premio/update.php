@@ -16,6 +16,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update Premio <?php echo $model->id_premio; ?></h1>
+<h1>Modificar Premio <?php //echo $model->id_premio; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

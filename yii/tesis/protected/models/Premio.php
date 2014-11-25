@@ -54,8 +54,8 @@ class Premio extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_premio' => 'Id Premio',
-			'descripcion' => 'Descripcion',
+			'id_premio' => 'ID',
+			'descripcion' => 'Descripción',
 		);
 	}
 

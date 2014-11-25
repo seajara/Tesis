@@ -40,7 +40,7 @@ class InventarioController extends Controller
 				'users'=>array('admin'),
 			),*/
                         array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'admin', 'create', 'update', 'delete','updateajax', 'pdf', 'graficos'),
+				'actions'=>array('index','view', 'admin', 'create', 'crear', 'update', 'delete','updateajax', 'pdf', 'graficos', 'reporteMovil','hola'),
 				'roles'=>array('direccion','capitania'),
 			),
 			array('deny',  // deny all users
@@ -67,7 +67,15 @@ class InventarioController extends Controller
 	public function actionCreate()
 	{
 		$model=new Inventario;
-
+                $modelFiltro = new Filtro();
+                if(isset($_POST['Filtro'])){     
+                    $modelFiltro->attributes=$_POST['Filtro'];
+                        $data["model"] = $model;
+                        $data["modelFiltro"] = $modelFiltro;
+                        $data["id_categoria"] = $modelFiltro->id_categoria;
+                        $data["id_dependencia"] = $modelFiltro->id_dependencia;
+                        $this->render('_form', $data);
+                }else{
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -79,6 +87,50 @@ class InventarioController extends Controller
 		}
 
 		$this->render('create',array(
+			'model'=>$model,
+                ));
+                
+                }
+	}
+        
+        public function actionCrear()
+	{
+		$model=new Inventario;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Inventario']))
+		{
+			$model->attributes=$_POST['Inventario'];
+                        $inventario = new Inventario;
+                        $criteria=new CDbCriteria;
+                        $criteria->select='max(id_inventario) AS id_inventario';
+                        $row = $inventario->model()->find($criteria);
+                        $max = $row['id_inventario'];
+                        $model->id_inventario = $max+1;
+                        /*$model->id_subcategoria = 1;
+                        $model->id_compania = 6;
+                        $model->descripcion = 'adsfs';
+                        $model->fecha_in = '2014-11-21';*/
+                        //$model->save();
+			if($model->save()){
+                            $cantidad = $model->cantidad;
+                            if($cantidad>1){
+                                $cod=$model->id_inventario+1;
+                                for($i=0;$i<$cantidad-1;$i++){
+                                    $fila=new Inventario;
+                                    $fila->attributes=$_POST['Inventario'];
+                                    $fila->id_inventario=$cod;
+                                    $fila->save();
+                                    $cod++;
+                                }
+                            }
+                            $this->redirect(array('admin'));
+                        }
+		}
+
+		$this->render('crear',array(
 			'model'=>$model,
 		));
 	}
@@ -141,7 +193,8 @@ class InventarioController extends Controller
                 $modelFiltro = new Filtro();
                 if(isset($_POST['Filtro'])){     
                     $modelFiltro->attributes=$_POST['Filtro'];
-                    if($modelFiltro->id_categoria==''){
+                    //if($modelFiltro->id_categoria==''){
+                    if(false){
                         $this->render('admin',array(
                             'model'=>$model, 'modelFiltro'=>$modelFiltro
                         ));
@@ -149,6 +202,7 @@ class InventarioController extends Controller
                         $data["model"] = $model;
                         $data["modelFiltro"] = $modelFiltro;
                         $data["id_categoria"] = $modelFiltro->id_categoria;
+                        $data["id_dependencia"] = $modelFiltro->id_dependencia;
                         $this->render('_ajaxContent', $data);
                     }
                     //$this->renderPartial('_ajaxContent', $data, false, true);
@@ -171,7 +225,7 @@ class InventarioController extends Controller
             $data = array();
             $data["myValue"] = 'se actualizo correctamente';
             
-                $this->renderPartial('_ajaxContent', $data, false, true);
+                $this->renderPartial('_div', $data, false, true);
         }
         
         public function actionPdf(){          
@@ -185,6 +239,18 @@ class InventarioController extends Controller
         
         public function actionGraficos(){
             $this->render('graficos');
+        }
+        
+        public function actionreporteMovil(){
+            $this->render('reporteMovil');
+        }
+        
+        public function actionHola(){
+            @$s1= $_POST['FromLB'];
+            if(is_array($s1)){
+                $this->render('hola', array('s1'=>$s1));
+            }
+            $this->render('hola', array('s1'=>$s1));
         }
 	/**
 	 * Manages all models.

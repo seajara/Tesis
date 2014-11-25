@@ -10,23 +10,26 @@
 
 .grid-view table.items
 {
-	background: white;
-	border-collapse: collapse;
+	
+	//border-collapse: collapse;
 	width: 100%;
 	border: 1px #D0E3EF solid;
+        border-radius: 10px 10px 0 0;
 }
 
 .grid-view table.items th, .grid-view table.items td
 {
 	font-size: 0.9em;
-	border: 1px white solid;
+	//border: 1px white solid;
 	padding: 0.3em;
 }
 
 .grid-view table.items th
 {
 	color: white;
-	background: url("bg.gif") repeat-x scroll left top white;
+	//background: url("bg.gif") repeat-x scroll left top white;
+        background-color: #B40307;
+        
 	text-align: center;
 }
 
@@ -122,4 +125,8 @@
 {
 	width: 100%;
 	border: 1px solid #ccc;
+}
+
+table{
+    border: 0px;
 }

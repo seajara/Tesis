@@ -44,12 +44,12 @@ $('.search-form form').submit(function(){
 		//'id_prerequisito',
 		'nombre',
 		'descripcion',
-                array(
+                /*array(
                     'name'=>'id_prerequisito',
                     'header'=>'Prerequisito',
                     //'value'=>'Curso::getPrerequisito($data->id_curso)',
                     //'value'=>'$data->descripcion',
-                ),
+                ),*/
 		//'estado',
 		array(
 			'class'=>'CButtonColumn',

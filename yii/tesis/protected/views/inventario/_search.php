@@ -47,11 +47,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'movil'); ?>
-		<?php echo $form->textField($model,'movil',array('size'=>20,'maxlength'=>20)); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'cantidad'); ?>
 		<?php echo $form->textField($model,'cantidad'); ?>
 	</div>

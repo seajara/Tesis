@@ -45,6 +45,15 @@ $('.search-form form').submit(function(){
                 ?>
 		<?php echo $form->error($modelFiltro,'id_categoria'); ?>
 	</div>
+        <div class="row">
+		<?php echo $form->labelEx($modelFiltro,'id_dependencia'); ?>
+		<?php 
+                      $dependencias = Dependencia::model()->findAll(array('order' => 'nombre')); 
+                      $lista = CHtml::listData($dependencias,'id_dependencia','nombre');
+                      echo $form->dropDownList($modelFiltro,'id_dependencia',$lista,array('empty'=>'Todas', 'onchange'=>'Javascript:filtrarDependencia()'));
+                ?>
+		<?php echo $form->error($modelFiltro,'id_dependencia'); ?>
+	</div>
         <div class="row buttons">
 		<?php //echo CHtml::submitButton($model->isNewRecord ? 'Buscar' : 'Buscar'); ?>
 	</div>
@@ -108,7 +117,6 @@ $('.search-form form').submit(function(){
 		'fecha_in',
 		/*
 		'responsable',
-		'movil',
 		'observaciones',
 		
 		*/

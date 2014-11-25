@@ -27,7 +27,6 @@ $this->menu=array(
 		'proveedor',
 		'fecha_in',
 		'responsable',
-		'movil',
 		'cantidad',
 		'observaciones',
 		'estado',

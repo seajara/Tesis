@@ -75,7 +75,7 @@ class CursoController extends Controller
 		{
 			$model->attributes=$_POST['Curso'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_curso));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('create',array(
@@ -99,7 +99,7 @@ class CursoController extends Controller
 		{
 			$model->attributes=$_POST['Curso'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_curso));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('update',array(

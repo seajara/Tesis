@@ -1,26 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "curso".
+ * This is the model class for table "dependencia".
  *
- * The followings are the available columns in table 'curso':
- * @property integer $id_curso
- * @property integer $id_prerequisito
+ * The followings are the available columns in table 'dependencia':
+ * @property integer $id_dependencia
+ * @property integer $id_compania
  * @property string $nombre
- * @property string $descripcion
- * @property integer $estado
+ * @property integer $tipo
  *
  * The followings are the available model relations:
- * @property HojaCurso[] $hojaCursos
+ * @property Compania $idCompania
+ * @property Inventario[] $inventarios
  */
-class Curso extends CActiveRecord
+class Dependencia extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'curso';
+		return 'dependencia';
 	}
 
 	/**
@@ -31,13 +31,12 @@ class Curso extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre', 'required'),
-			array('id_prerequisito, estado', 'numerical', 'integerOnly'=>true),
-			array('nombre', 'length', 'max'=>15),
-			array('descripcion', 'length', 'max'=>100),
+			array('id_compania, nombre, tipo', 'required'),
+			array('id_compania, tipo', 'numerical', 'integerOnly'=>true),
+			array('nombre', 'length', 'max'=>30),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_curso, id_prerequisito, nombre, descripcion, estado', 'safe', 'on'=>'search'),
+			array('id_dependencia, id_compania, nombre, tipo', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,7 +48,8 @@ class Curso extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'hojaCursos' => array(self::HAS_MANY, 'HojaCurso', 'id_curso'),
+			'idCompania' => array(self::BELONGS_TO, 'Compania', 'id_compania'),
+			'inventarios' => array(self::HAS_MANY, 'Inventario', 'id_dependencia'),
 		);
 	}
 
@@ -59,11 +59,10 @@ class Curso extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_curso' => 'ID',
-			'id_prerequisito' => 'Prerequisito',
+			'id_dependencia' => 'Id Dependencia',
+			'id_compania' => 'Id Compania',
 			'nombre' => 'Nombre',
-			'descripcion' => 'Descripcion',
-			'estado' => 'Estado',
+			'tipo' => 'Tipo',
 		);
 	}
 
@@ -85,27 +84,21 @@ class Curso extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id_curso',$this->id_curso);
-		$criteria->compare('id_prerequisito',$this->id_prerequisito);
+		$criteria->compare('id_dependencia',$this->id_dependencia);
+		$criteria->compare('id_compania',$this->id_compania);
 		$criteria->compare('nombre',$this->nombre,true);
-		$criteria->compare('descripcion',$this->descripcion,true);
-		$criteria->compare('estado',$this->estado);
+		$criteria->compare('tipo',$this->tipo);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
-        
-        /*public static function getPrerequisito($id){
-            $id_pre = 0;
-            $id_pre = Curso::model()->findByPk($id)->id_prerequisito;
-            return Curso::model()->findByPk($id_pre)->descripcion;
-        }*/
-        /**
+
+	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Curso the static model class
+	 * @return Dependencia the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

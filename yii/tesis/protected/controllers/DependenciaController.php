@@ -1,6 +1,6 @@
 <?php
 
-class PremioController extends Controller
+class DependenciaController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -27,21 +27,9 @@ class PremioController extends Controller
 	public function accessRules()
 	{
 		return array(
-			/*array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),*/
-                        array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view', 'admin', 'create', 'update', 'delete'),
-				'roles'=>array('direccion'),
+				'roles'=>array('direccion','capitania'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -66,14 +54,14 @@ class PremioController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Premio;
+		$model=new Dependencia;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Premio']))
+		if(isset($_POST['Dependencia']))
 		{
-			$model->attributes=$_POST['Premio'];
+			$model->attributes=$_POST['Dependencia'];
 			if($model->save())
 				$this->redirect(array('admin'));
 		}
@@ -95,9 +83,9 @@ class PremioController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Premio']))
+		if(isset($_POST['Dependencia']))
 		{
-			$model->attributes=$_POST['Premio'];
+			$model->attributes=$_POST['Dependencia'];
 			if($model->save())
 				$this->redirect(array('admin'));
 		}
@@ -126,7 +114,7 @@ class PremioController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Premio');
+		$dataProvider=new CActiveDataProvider('Dependencia');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -137,10 +125,10 @@ class PremioController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Premio('search');
+		$model=new Dependencia('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Premio']))
-			$model->attributes=$_GET['Premio'];
+		if(isset($_GET['Dependencia']))
+			$model->attributes=$_GET['Dependencia'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -151,12 +139,12 @@ class PremioController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Premio the loaded model
+	 * @return Dependencia the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Premio::model()->findByPk($id);
+		$model=Dependencia::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -164,11 +152,11 @@ class PremioController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Premio $model the model to be validated
+	 * @param Dependencia $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='premio-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='dependencia-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

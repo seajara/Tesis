@@ -33,6 +33,15 @@ $('.search-form form').submit(function(){
                 ?>
 		<?php echo $form->error($modelFiltro,'id_categoria'); ?>
 	</div>
+        <div class="row">
+		<?php echo $form->labelEx($modelFiltro,'id_dependencia'); ?>
+		<?php 
+                      $dependencias = Dependencia::model()->findAll(array('order' => 'nombre')); 
+                      $lista = CHtml::listData($dependencias,'id_dependencia','nombre');
+                      echo $form->dropDownList($modelFiltro,'id_dependencia',$lista,array('empty'=>'Todas', 'onchange'=>'Javascript:filtrarDependencia()'));
+                ?>
+		<?php echo $form->error($modelFiltro,'id_dependencia'); ?>
+	</div>
         <div class="row buttons">
 		<?php //echo CHtml::submitButton($modelFiltro->isNewRecord ? 'Buscar' : 'Buscar'); ?>
 	</div>
@@ -69,7 +78,11 @@ $('.search-form form').submit(function(){
 </div><!-- search-form -->
 
 <div id="data1">
-<?php  $subs = Subcategoria::model()->findAllByAttributes(array('id_categoria'=>$id_categoria));
+<?php   if(empty($id_categoria)){
+            $subs = Subcategoria::model()->findAll();
+        }else{
+            $subs = Subcategoria::model()->findAllByAttributes(array('id_categoria'=>$id_categoria));
+        }
         $subcategorias = array();
         $i=0;
         foreach($subs as $datos){
@@ -78,7 +91,7 @@ $('.search-form form').submit(function(){
         }
         $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'inventario-grid',
-	'dataProvider'=>$model->searchBy($subcategorias),
+	'dataProvider'=>$model->searchBy($subcategorias, $id_dependencia),
 	'filter'=>$model,
 	'columns'=>array(
 		'id_inventario',
