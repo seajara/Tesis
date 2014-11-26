@@ -60,6 +60,7 @@ class Inventario extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'idSubcategoria' => array(self::BELONGS_TO, 'Subcategoria', 'id_subcategoria'),
+                        'idDependencia' => array(self::BELONGS_TO, 'Dependencia', 'id_dependencia'),
 		);
 	}
 

@@ -54,26 +54,7 @@ $('.search-form form').submit(function(){
                 ?>
 		<?php echo $form->error($modelFiltro,'id_dependencia'); ?>
 	</div>
-        <div class="row buttons">
-		<?php //echo CHtml::submitButton($model->isNewRecord ? 'Buscar' : 'Buscar'); ?>
-	</div>
-    <div class="row buttons">
-        <?php /*echo CHtml::ajaxSubmitButton('Submit Ajax',
-            CController::createUrl('inventario/UpdateAjax'),
-            array(
-                    'type'=>'POST',
-                    'data'=>array('update' => '#data1'),
-                    'replace' => '#data1',                                   
-            )      
-            ); */    
-        ?>
-    </div>
         <?php $this->endWidget(); ?>
-</div>
-<div class="row">
-    <?php
-        //echo CHtml::ajaxButton("Update data", CController::createUrl('inventario/UpdateAjax', array("id"=>1)), array('update' => '#data1'));
-    ?>
 </div>
 
 <div class="row" style="text-align: right">

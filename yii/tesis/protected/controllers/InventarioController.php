@@ -40,7 +40,7 @@ class InventarioController extends Controller
 				'users'=>array('admin'),
 			),*/
                         array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'admin', 'create', 'crear', 'update', 'delete','updateajax', 'pdf', 'graficos', 'reporteMovil','hola'),
+				'actions'=>array('index','view', 'admin', 'create', 'crear', 'update', 'delete','updateajax', 'pdf', 'graficos', 'reporteMovil','hola','codigo'),
 				'roles'=>array('direccion','capitania'),
 			),
 			array('deny',  // deny all users
@@ -97,9 +97,15 @@ class InventarioController extends Controller
 	{
 		$model=new Inventario;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
+                $modelFiltro = new Filtro();
+                if(isset($_POST['Filtro'])){     
+                    $modelFiltro->attributes=$_POST['Filtro'];
+                        $data["model"] = $model;
+                        $data["modelFiltro"] = $modelFiltro;
+                        $data["id_categoria"] = $modelFiltro->id_categoria;
+                        $data["id_dependencia"] = $modelFiltro->id_dependencia;
+                        $this->render('_form', $data);
+                }else{
 		if(isset($_POST['Inventario']))
 		{
 			$model->attributes=$_POST['Inventario'];
@@ -129,10 +135,10 @@ class InventarioController extends Controller
                             $this->redirect(array('admin'));
                         }
 		}
-
 		$this->render('crear',array(
 			'model'=>$model,
 		));
+                }
 	}
 
 	/**
@@ -228,13 +234,14 @@ class InventarioController extends Controller
                 $this->renderPartial('_div', $data, false, true);
         }
         
-        public function actionPdf(){          
-                $dataProvider=new CActiveDataProvider('Inventario');
+        public function actionPdf(){     
+                $this->render('reporte');
+                /*$dataProvider=new CActiveDataProvider('Inventario');
                 $this->layout="//layouts/pdf";
                 # mPDF
                 $mPDF1 = Yii::app()->ePdf->mpdf();
                 $mPDF1->WriteHTML($this->render('reporte',array('dataProvider'=>$dataProvider), true));
-                $mPDF1->Output("Inventario".date("YmdHis"),  EYiiPdf::OUTPUT_TO_BROWSER);
+                $mPDF1->Output("Inventario".date("YmdHis"),  EYiiPdf::OUTPUT_TO_BROWSER);*/
         }
         
         public function actionGraficos(){
@@ -251,6 +258,110 @@ class InventarioController extends Controller
                 $this->render('hola', array('s1'=>$s1));
             }
             $this->render('hola', array('s1'=>$s1));
+        }
+        
+       
+
+    public function actionCodigo(){
+            /*function count_digit($number) {
+            $digit = 0;
+            do {
+                $number /= 10;      //$number = $number / 10; 
+                $number = intval($number);
+                $digit++;
+            } while ($number != 0);
+            return $digit;
+        }
+            $model=Inventario::model()->findAll();
+            foreach($model as $i){
+                $id = '';
+                switch (count_digit($i->id_inventario)) {
+                    case 1:
+                    $id = '00'.$i->id_inventario;
+                    break;
+
+                    case 2:
+                    $id = '0'.$i->id_inventario;
+                    break;
+
+                    default:
+                    $id = $i->id_inventario;
+                    break;
+                }
+                $cat = '';
+                switch (count_digit($i->idSubcategoria->idCategoria->id_categoria)) {
+                    
+                    case 1:
+                    $cat = '0'.$i->idSubcategoria->idCategoria->id_categoria;
+                    break;
+
+                    default:
+                    $cat = $i->idSubcategoria->idCategoria->id_categoria;
+                    break;
+                }
+                $sub = '';
+                switch (count_digit($i->id_subcategoria)) {
+                    case 1:
+                    $sub = '00'.$i->id_subcategoria;
+                    break;
+
+                    case 2:
+                    $sub = '0'.$i->id_subcategoria;
+                    break;
+
+                    default:
+                    $sub = $i->id_subcategoria;
+                    break;
+                }
+                $com = 6;
+                $srt = $com.$cat.$sub.$id;
+                $i->id_inventario = (int)$srt;
+                $i->save();
+            }
+            $this->redirect(array('admin'));*/
+            function count_digit($number) {
+            $digit = 0;
+            do {
+                $number /= 10;      //$number = $number / 10; 
+                $number = intval($number);
+                $digit++;
+            } while ($number != 0);
+            return $digit;
+            }
+            $model=Inventario::model()->findAll();
+            foreach($model as $i){
+                for($a=1; $a<=$i->cantidad; $a++){
+                    $elemento = new Elemento;
+                    $id_elemento = '';
+                    switch (count_digit($a)) {
+                        case 1:
+                        $id_elemento = '000'.$a;
+                        break;
+
+                        case 2:
+                        $id_elemento = '00'.$a;
+                        break;
+                    
+                        case 3:
+                        $id_elemento = '0'.$a;
+                        break;
+
+                        default:
+                        $id_elemento = $a;
+                        break;
+                    }
+                    $id_inventario = '';
+                    $id_inventario = $i->id_inventario;
+                    $srt = $id_inventario.$id_elemento;
+                    $elemento->id_elemento = (int)$srt;
+                    $elemento->id_inventario = $i->id_inventario;
+                    $elemento->id_dependencia = $i->id_dependencia;
+                    $elemento->fecha_in = $i->fecha_in;
+                    $elemento->estado = $i->estado;
+                    $elemento->save();
+                }  
+            }
+            $this->redirect(array('admin'));
         }
 	/**
 	 * Manages all models.

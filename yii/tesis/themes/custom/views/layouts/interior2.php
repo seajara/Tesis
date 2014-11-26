@@ -87,7 +87,7 @@ End WOWSlider.com HEAD section -->
            <?php if(Yii::app()->user->checkAccess('direccion')||Yii::app()->user->checkAccess('capitania')): ?>
            <li class='active has-sub'><a href='#'><span>INVENTARIOS</span></a>
               <ul>
-                 <li><a href="<?php echo Yii::app()->baseUrl; ?>/inventario/create"><span>Agregar Elemento</span></a> </li>
+                 <li><a href="<?php echo Yii::app()->baseUrl; ?>/inventario/crear"><span>Agregar Elemento</span></a> </li>
                  <li><a href="<?php echo Yii::app()->baseUrl; ?>/inventario/admin"><span>Ver Inventario</span></a></li>
                  <li class='has-sub'><a href='#'><span>Categorias</span></a>
                      <ul>

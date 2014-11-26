@@ -41,27 +41,9 @@ $('.search-form form').submit(function(){
                       echo $form->dropDownList($modelFiltro,'id_dependencia',$lista,array('empty'=>'Todas', 'onchange'=>'Javascript:filtrarDependencia()'));
                 ?>
 		<?php echo $form->error($modelFiltro,'id_dependencia'); ?>
-	</div>
-        <div class="row buttons">
-		<?php //echo CHtml::submitButton($modelFiltro->isNewRecord ? 'Buscar' : 'Buscar'); ?>
-	</div>
-
-        <?php /*echo CHtml::ajaxSubmitButton('Submit Ajax',
-            CController::createUrl('inventario/UpdateAjax'),
-            array(
-                    'type'=>'POST',
-                    'data'=>array('update' => '#data1'),
-                    'replace' => '#data1',                                   
-            )      
-            ); */      
-        ?>
-
+	</div>      
         <?php $this->endWidget(); ?>
 </div>
-
-    <?php
-        //echo CHtml::ajaxButton("Update data", CController::createUrl('inventario/UpdateAjax', array("id"=>1)), array('update' => '#data1'));
-    ?>
 
 <div class="row" style="text-align: right">
 <?php //echo CHtml::link('Búsqueda Avanzada','#',array('class'=>'search-button'));
