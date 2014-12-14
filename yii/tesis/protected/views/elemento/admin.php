@@ -26,24 +26,40 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Administrar Elementos</h1>
+<h1>
+    <?php $inventario = Inventario::model()->findByPk($id_inventario);
+        echo $inventario->nombre;
+    ?>
+</h1>
 
-<?php echo CHtml::link('Búsqueda Avanzada','#',array('class'=>'search-button')); ?>
+<div class="span-5">
+    <?php 
+        echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl."/images/busquedaavanzada.png","PDF",array('class'=>'search-button',"title"=>"Búsqueda Avanzada", "width"=>"50px")),array("pdf"),array('target'=>'_blank'));
+        echo CHtml::button('Agregar Elemento', array('submit' => array('elemento/create/'.$id_inventario)));
+    ?>
+</div>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
 )); ?>
 </div><!-- search-form -->
-
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'elemento-grid',
-	'dataProvider'=>$model->search(),
+	'dataProvider'=>$model->search($id_inventario),
 	'filter'=>$model,
 	'columns'=>array(
-		'id_elemento',
-		'id_inventario',
-		'id_dependencia',
+		//'id_elemento',
+		//'id_inventario',
+                'codigo_elemento',
+		//'id_dependencia',
+                array(
+                    'name'=>'id_dependencia',
+                    'header'=>'Dependencia',
+                    'value'=>'Inventario::getDependencia($data->id_dependencia)',
+                    'filter'=>CHtml::listData(Dependencia::model()->findAll(),'id_dependencia','nombre'),
+                ),
 		'fecha_in',
+                'responsable',
 		'estado',
 		array(
 			'class'=>'CButtonColumn',

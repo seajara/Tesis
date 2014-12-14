@@ -22,11 +22,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'id_compania'); ?>
-		<?php echo $form->textField($model,'id_compania'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'descripcion'); ?>
 		<?php echo $form->textField($model,'descripcion',array('size'=>60,'maxlength'=>200)); ?>
 	</div>
@@ -37,28 +32,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'fecha_in'); ?>
-		<?php echo $form->textField($model,'fecha_in'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'responsable'); ?>
-		<?php echo $form->textField($model,'responsable',array('size'=>50,'maxlength'=>50)); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'cantidad'); ?>
 		<?php echo $form->textField($model,'cantidad'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'observaciones'); ?>
-		<?php echo $form->textField($model,'observaciones',array('size'=>60,'maxlength'=>200)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'estado'); ?>
-		<?php echo $form->textField($model,'estado'); ?>
 	</div>
 
 	<div class="row buttons">

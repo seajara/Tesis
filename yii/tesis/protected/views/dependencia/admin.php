@@ -25,7 +25,11 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-
+<div class="row" style="text-align: right">
+<?php //echo CHtml::link('Búsqueda Avanzada','#',array('class'=>'search-button'));
+    //echo CHtml::link(CHtml::image(Yii::app()->theme->baseUrl."/images/pdf.png","PDF",array("title"=>"Generar Reporte", "width"=>"50px")),array("filtroPdfMovil"),array('target'=>'_blank'));                
+?>
+</div>
 <h1>Administrar Dependencias</h1>
 
 <?php echo CHtml::link('Búsqueda Avanzada','#',array('class'=>'search-button')); ?>

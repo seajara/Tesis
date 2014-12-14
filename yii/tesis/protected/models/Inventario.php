@@ -6,21 +6,21 @@
  * The followings are the available columns in table 'inventario':
  * @property string $id_inventario
  * @property integer $id_subcategoria
- * @property integer $id_compania
  * @property integer $id_dependencia
+ * @property string $codigo
+ * @property string $nombre
  * @property string $descripcion
  * @property string $proveedor
- * @property string $fecha_in
- * @property string $responsable
  * @property integer $cantidad
- * @property string $observaciones
- * @property integer $estado
  *
  * The followings are the available model relations:
  * @property Subcategoria $idSubcategoria
  */
 class Inventario extends CActiveRecord
 {
+        public $fecha_in;
+        public $estado;
+        //public $dependencia;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -37,17 +37,16 @@ class Inventario extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_inventario, id_subcategoria, id_compania, id_dependencia, descripcion, fecha_in', 'required'),
-			array('id_subcategoria, id_compania, id_dependencia', 'numerical', 'integerOnly'=>true),
-                        array('id_inventario' ,'unique'),
+			array('id_subcategoria, nombre, cantidad, fecha_in, estado', 'required'),
+			array('id_subcategoria', 'numerical', 'integerOnly'=>true),
+                        array('codigo' ,'unique'),
                         array('cantidad' ,'numerical', 'min'=>1),
-                        //array('fecha_in', 'default', 'setOnEmpty'=>''),
-			array('descripcion, observaciones', 'length', 'max'=>200),
-			array('proveedor, responsable', 'length', 'max'=>50),
-                        array('estado', 'length', 'max'=>12),
+			array('descripcion', 'length', 'max'=>200),
+			array('proveedor', 'length', 'max'=>50),
+                        //array('estado', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_inventario, id_subcategoria, id_compania, id_dependencia, descripcion, proveedor, fecha_in, responsable, cantidad, observaciones, estado', 'safe', 'on'=>'search'),
+			array('id_inventario, id_subcategoria, codigo, nombre, descripcion, proveedor, cantidad, fecha_in, estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,8 +58,7 @@ class Inventario extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idSubcategoria' => array(self::BELONGS_TO, 'Subcategoria', 'id_subcategoria'),
-                        'idDependencia' => array(self::BELONGS_TO, 'Dependencia', 'id_dependencia'),
+			'idSubcategoria' => array(self::BELONGS_TO, 'Subcategoria', 'id_subcategoria'),                       
 		);
 	}
 
@@ -70,16 +68,14 @@ class Inventario extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_inventario' => 'Código',
+			'id_inventario' => 'ID',
+                        'codigo' => 'Código',
 			'id_subcategoria' => 'Subcategoria',
-			'id_compania' => 'Compania',
-                        'id_dependencia' => 'Dependencia',
-			'descripcion' => 'Nombre',
+                        'nombre' => 'Nombre',
+			'descripcion' => 'Descripción',
 			'proveedor' => 'Proveedor',
-			'fecha_in' => 'Fecha Incorporación',
-			'responsable' => 'Responsable',
+			'fecha_in' => 'Fecha Ingreso',
 			'cantidad' => 'Cantidad',
-			'observaciones' => 'Observaciones',
 			'estado' => 'Estado',
 		);
 	}
@@ -104,58 +100,32 @@ class Inventario extends CActiveRecord
 
 		$criteria->compare('id_inventario',$this->id_inventario,true);
 		$criteria->compare('id_subcategoria',$this->id_subcategoria);
-		$criteria->compare('id_compania',$this->id_compania);
-                $criteria->compare('id_dependencia',$this->id_dependencia);
+                $criteria->compare('codigo',$this->codigo);
+                $criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('proveedor',$this->proveedor,true);
-		$criteria->compare('fecha_in',$this->fecha_in,true);
-		$criteria->compare('responsable',$this->responsable,true);
 		$criteria->compare('cantidad',$this->cantidad);
-		$criteria->compare('observaciones',$this->observaciones,true);
-		$criteria->compare('estado',$this->estado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
         
-        public function searchBy($subcategorias, $id_dependencia)
+        public function searchBy($subcategorias)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_inventario',$this->id_inventario,true);
-                /*if(!empty($subcategorias)){
+                if(!empty($subcategorias)){
                     $criteria->compare('id_subcategoria',$subcategorias);
                 }else{
                     $criteria->compare('id_subcategoria',-1);
-                }*/
-                if(empty($subcategorias)&&empty($id_dependencia)){
-                    $criteria->compare('id_subcategoria',-1);
-                    $criteria->compare('id_dependencia',$this->id_dependencia);
-                }else{
-                    if(empty($subcategorias)){
-                        $criteria->compare('id_subcategoria',-1);
-                        $criteria->compare('id_dependencia',$id_dependencia);
-                    }else{
-                        if(empty($id_dependencia)){
-                            $criteria->compare('id_subcategoria',$subcategorias);
-                            $criteria->compare('id_dependencia',$this->id_dependencia);
-                        }else{
-                            $criteria->compare('id_subcategoria',$subcategorias);
-                            $criteria->compare('id_dependencia',$id_dependencia);
-                        }   
-                    }
                 }
-		$criteria->compare('id_compania',$this->id_compania);
 		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('proveedor',$this->proveedor,true);
-		$criteria->compare('fecha_in',$this->fecha_in,true);
-		$criteria->compare('responsable',$this->responsable,true);
 		$criteria->compare('cantidad',$this->cantidad);
-		$criteria->compare('observaciones',$this->observaciones,true);
-		$criteria->compare('estado',$this->estado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -185,12 +155,17 @@ class Inventario extends CActiveRecord
             return Subcategoria::model()->findByPk(array('id_subcategoria'=>$id))->idCategoria->nombre;
         }
         
-        public static function getListEstado(){
-            return CHtml::listData(Inventario::model()->findAll(),'estado','estado');
+        public static function getListDependencia(){
+            return CHtml::listData(Dependencia::model()->findAll(),'id_dependencia','nombre');
+            //return CHtml::listData(Subcategoria::model()->findAll(),'id_subcategoria','idCategoria->nombre');
         }
         
-        public static function getEstado($id){
-            return Inventario::model()->findByPk(array('id_inventario'=>$id))->estado;
+        public static function getDependencia($id){
+            return Dependencia::model()->findByPk(array('id_dependencia'=>$id))->nombre;
+        }
+        
+        public static function getFormatoCodigo($id){
+            return $id.'-xxxx';
         }
         
 	public static function model($className=__CLASS__)

@@ -16,15 +16,53 @@ $this->menu=array(
 );
 ?>
 
-<h1>View Elemento #<?php echo $model->id_elemento; ?></h1>
+<h1><?php echo $model->idInventario->nombre; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
+        /*'htmlOptions'=>array(
+            'border'=>'1',
+        ),*/
 	'attributes'=>array(
-		'id_elemento',
-		'id_inventario',
-		'id_dependencia',
+		//'id_elemento',
+		//'id_inventario',
+                'codigo_elemento',
+                array(
+                    'name'=>'Nombre',
+                    'value'=>$model->idInventario->nombre,
+                ),
+                array(
+                    'name'=>'Descripci&oacuten',
+                    'value'=>$model->idInventario->descripcion,
+                ),
+                array(
+                    'name'=>'Proveedor',
+                    'value'=>$model->idInventario->proveedor,
+                ),
+                array(
+                    'name'=>'Categor&iacutea',
+                    'value'=>$model->idInventario->idSubcategoria->idCategoria->nombre,
+                ),
+                /*array(               // related city displayed as a link
+                    'label'=>'Inventario',
+                    'type'=>'raw',
+                    'value'=>CHtml::link(CHtml::encode($model->idInventario->nombre),
+                                         array('inventario/view','id'=>$model->idInventario->id_inventario)),
+                ),*/
+		//'id_dependencia',
+                array(
+                    'name'=>'Dependencia',
+                    'value'=>Elemento::getDependencia($model->id_dependencia),
+                ),
+                'responsable',  
+                'nro_serie',
 		'fecha_in',
 		'estado',
+                'observaciones',
 	),
 )); ?>
+<br/>
+<div class="span-10">
+    <?php echo CHtml::image(Yii::app()->request->baseUrl.'/barcodes/'.$model->codigo_elemento); ?>
+    <?php echo CHtml::image(Yii::app()->request->baseUrl.'/barcodes/'.$model->codigo_elemento); ?>
+</div>

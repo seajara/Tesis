@@ -13,6 +13,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create Elemento</h1>
+<h1>Agregar <?php echo Inventario::model()->findByPk($id_inventario)->nombre; ?></h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model, 'id_inventario'=>$id_inventario)); ?>

@@ -1,14 +1,14 @@
 <h1>Estadísticas</h1><br/>
 
 <?php
-	$subcategoria = Subcategoria::model()->findAll();
+	$dependencia = Dependencia::model()->findAll();
         $totales = array();
 	$nombres = array(); 
 	//$cantidad = array();
 	$i=0;	
         //$totales[$i]=0;
-	foreach($subcategoria as $datos){ //ciclo foreach para llenar el arreglo
-            $inventarios = Inventario::model()->findAllByAttributes(array('id_subcategoria'=>$datos->id_subcategoria));
+	foreach($dependencia as $datos){ //ciclo foreach para llenar el arreglo
+            $inventarios = Inventario::model()->findAllByAttributes(array('id_dependencia'=>$datos->id_dependencia));
             $totales[$i]=0;
             foreach($inventarios as $item){
 		$totales[$i]=$totales[$i]+(int)$item->cantidad;
@@ -25,7 +25,7 @@ $this->widget('ext.highcharts.highcharts.HighchartsWidget', array(
 	
     'options' => array(
         'title' => array(
-            'text' => 'Subcategorías',
+            'text' => 'Dependencias',
         ),
         'xAxis' => array(
             'categories' => $nombres,
@@ -48,31 +48,9 @@ $this->widget('ext.highcharts.highcharts.HighchartsWidget', array(
         'series' => array(
             array(
                 'type' => 'column',
-                'name' => $nombres,
+                'name' => "Cantidad  por Dependencia",
                'data' => $totales,
-            ),
-            /*array(
-                'type' => 'column',
-                'name' => 'John',
-                'data' => array(2, 3, 5, 7, 6),
-            ),
-            array(
-                'type' => 'column',
-                'name' => 'Joe',
-                'data' => array(4, 3, 3, 9, 0),
-            ),
-			// Grafico de lineas
-            array(
-                'type' => 'spline',
-                'name' => 'Average',
-                'data' => array(3, 2.67, 3, 6.33, 3.33),
-                'marker' => array(
-                    'lineWidth' => 2,
-                    'lineColor' => 'js:Highcharts.getOptions().colors[3]',
-                    'fillColor' => 'white',
-                ),
-            ),*/
-           
+            ),          
         ),
     )
 ));
@@ -80,20 +58,20 @@ $this->widget('ext.highcharts.highcharts.HighchartsWidget', array(
 ?>
 
 <?php
-	$subcategoria = Subcategoria::model()->findAll();
+	$dependencia = Dependencia::model()->findAll();
         $totales = array();
 	$nombres = array(); 
 	//$cantidad = array();
 	$i=0;	
         //$totales[$i]=0;
-	foreach($subcategoria as $datos){ //ciclo foreach para llenar el arreglo
-            $inventarios = Inventario::model()->findAllByAttributes(array('id_subcategoria'=>$datos->id_subcategoria));
+	foreach($dependencia as $datos){ //ciclo foreach para llenar el arreglo
+            $elementos = Elemento::model()->findAllByAttributes(array('id_dependencia'=>$datos->id_dependencia));
             $totales[$i]=0;
-            foreach($inventarios as $item){
+            foreach($elementos as $item){
                 if($item->estado=='Baja')
                     $totales[$i]=$totales[$i]+(int)$item->cantidad;
             }
-            $nombres[$i]=$datos->nombre;
+            $nombres[$i]=$datos->idInventario->nombre;
             $i++;
 	}
 		
@@ -105,7 +83,7 @@ $this->widget('ext.highcharts.highcharts.HighchartsWidget', array(
 	
     'options' => array(
         'title' => array(
-            'text' => 'Cantidad de Bajas',
+            'text' => 'Cantidad de Bajas por Dependencia',
         ),
         'xAxis' => array(
             'categories' => $nombres,
@@ -128,31 +106,9 @@ $this->widget('ext.highcharts.highcharts.HighchartsWidget', array(
         'series' => array(
             array(
                 'type' => 'column',
-                'name' => $nombres,
+                'name' => "Cantidad Total",
                'data' => $totales,
-            ),
-            /*array(
-                'type' => 'column',
-                'name' => 'John',
-                'data' => array(2, 3, 5, 7, 6),
-            ),
-            array(
-                'type' => 'column',
-                'name' => 'Joe',
-                'data' => array(4, 3, 3, 9, 0),
-            ),
-			// Grafico de lineas
-            array(
-                'type' => 'spline',
-                'name' => 'Average',
-                'data' => array(3, 2.67, 3, 6.33, 3.33),
-                'marker' => array(
-                    'lineWidth' => 2,
-                    'lineColor' => 'js:Highcharts.getOptions().colors[3]',
-                    'fillColor' => 'white',
-                ),
-            ),*/
-           
+            ),          
         ),
     )
 ));

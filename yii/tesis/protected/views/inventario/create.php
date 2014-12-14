@@ -12,6 +12,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Agregar Elemento</h1>
+<h1>Agregar Inventario</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

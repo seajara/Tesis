@@ -16,6 +16,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update Elemento <?php echo $model->id_elemento; ?></h1>
+<h1>Modificar Elemento <?php echo $model->codigo_elemento; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

@@ -28,7 +28,7 @@ class DependenciaController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'admin', 'create', 'update', 'delete'),
+				'actions'=>array('index','view', 'admin', 'create', 'update', 'delete', 'filtroPdfMovil'),
 				'roles'=>array('direccion','capitania'),
 			),
 			array('deny',  // deny all users
@@ -134,6 +134,26 @@ class DependenciaController extends Controller
 			'model'=>$model,
 		));
 	}
+        
+        public function actionfiltroPdfMovil(){
+            $model =  new Filtro;
+            if(isset($_POST['Filtro'])){     
+                    $model->attributes=$_POST['Filtro'];
+                    $this->render('pdfMovil', array('$id'=>$model->id_dependencia));
+            }
+            $this->redirect(array('pdfMovilForm',array(
+			'model'=>$model,
+            )));
+        }
+        
+        public function pdfMovil($id){
+            $dataProvider=new CActiveDataProvider('Dependencia');
+                $this->layout="//layouts/pdf";
+                # mPDF
+                $mPDF1 = Yii::app()->ePdf->mpdf();
+                $mPDF1->WriteHTML($this->render('pdfMovil',array('dataProvider'=>$dataProvider, 'id'=>$id), true));
+                $mPDF1->Output("Dependencia".date("YmdHis"),  EYiiPdf::OUTPUT_TO_BROWSER);
+        }
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.

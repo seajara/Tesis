@@ -83,7 +83,7 @@ function MM_preloadImages() { //v3.0
            <?php if(Yii::app()->user->checkAccess('direccion')||Yii::app()->user->checkAccess('capitania')): ?>
            <li class='active has-sub'><a href='#'><span>INVENTARIOS</span></a>
               <ul>
-                 <li><a href="<?php echo Yii::app()->baseUrl; ?>/inventario/create"><span>Agregar Elemento</span></a> </li>
+                 <li><a href="<?php echo Yii::app()->baseUrl; ?>/inventario/create"><span>Agregar Inventario</span></a> </li>
                  <li class='last'><a href="<?php echo Yii::app()->baseUrl; ?>/inventario/admin"><span>Ver Inventario</span></a></li>
                  <li class='has-sub'><a href='#'><span>Categorias</span></a>
                      <ul>
@@ -95,6 +95,12 @@ function MM_preloadImages() { //v3.0
                      <ul>
                          <li><a href="<?php echo Yii::app()->baseUrl; ?>/subcategoria/admin"><span>Ver Subcategorias</span></a> </li>
                          <li class="last"><a href="<?php echo Yii::app()->baseUrl; ?>/subcategoria/create"><span>Agregar Subcategoria</span></a></li>                   
+                     </ul>
+                 </li>
+                 <li class='has-sub'><a href='#'><span>Dependencias</span></a>
+                     <ul>
+                         <li><a href="<?php echo Yii::app()->baseUrl; ?>/dependencia/admin"><span>Ver Dependencias</span></a> </li>
+                         <li class="last"><a href="<?php echo Yii::app()->baseUrl; ?>/dependencia/create"><span>Agregar Dependencias</span></a></li>                   
                      </ul>
                  </li>
               </ul>

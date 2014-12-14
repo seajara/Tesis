@@ -7,7 +7,10 @@
  * @property integer $id_elemento
  * @property integer $id_inventario
  * @property integer $id_dependencia
+ * @property integer $codigo_elemento
  * @property string $fecha_in
+ * @property integer $nro_serie
+ * @property integer $responsable
  * @property string $estado
  *
  * The followings are the available model relations:
@@ -31,12 +34,15 @@ class Elemento extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_elemento, id_inventario, id_dependencia, fecha_in, estado', 'required'),
+			array('id_inventario, id_dependencia, codigo_elemento, fecha_in, estado', 'required'),
 			array('id_elemento, id_inventario, id_dependencia', 'numerical', 'integerOnly'=>true),
-			array('estado', 'length', 'max'=>12),
+			array('nro_serie', 'length', 'max'=>50),
+                        array('responsable', 'length', 'max'=>50),
+                        array('estado', 'length', 'max'=>12),
+                        array('observaciones', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_elemento, id_inventario, id_dependencia, fecha_in, estado', 'safe', 'on'=>'search'),
+			array('id_elemento, id_inventario, id_dependencia, codigo_elemento, fecha_in, nro_serie, responsable, estado, observaciones', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,7 +54,8 @@ class Elemento extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idInventario' => array(self::BELONGS_TO, 'Inventario', 'id_inventario'),
+                    'idInventario' => array(self::BELONGS_TO, 'Inventario', 'id_inventario'),
+                    'idDependencia' => array(self::BELONGS_TO, 'Dependencia', 'id_dependencia'),
 		);
 	}
 
@@ -58,11 +65,15 @@ class Elemento extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_elemento' => 'Código',
-			'id_inventario' => 'Id Inventario',
+			'id_elemento' => 'ID',
+			'id_inventario' => 'Codigo Inventario',
 			'id_dependencia' => 'Dependencia',
+                        'codigo' => 'Código',
 			'fecha_in' => 'Fecha Ingreso',
+                        'nro_serie' => 'N° de Serie/Producto',
+                        'responsable' => 'Responsable',    
 			'estado' => 'Estado',
+                        'observaciones' => 'Observaciones/Motivos de Baja',
 		);
 	}
 
@@ -78,17 +89,21 @@ class Elemento extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($id_inventario)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_elemento',$this->id_elemento);
-		$criteria->compare('id_inventario',$this->id_inventario);
+		$criteria->compare('id_inventario',$id_inventario);
 		$criteria->compare('id_dependencia',$this->id_dependencia);
+                $criteria->compare('codigo_elemento',$this->codigo_elemento);
 		$criteria->compare('fecha_in',$this->fecha_in,true);
+                $criteria->compare('nro_serie',$this->nro_serie,true);
+                $criteria->compare('responsable',$this->responsable,true);
 		$criteria->compare('estado',$this->estado,true);
+                $criteria->compare('observaciones',$this->observaciones,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -101,6 +116,21 @@ class Elemento extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Elemento the static model class
 	 */
+        public static function getListDependencia(){
+            return CHtml::listData(Dependencia::model()->findAll(),'id_dependencia','nombre');
+        }
+        
+        public static function getDependencia($id){
+            return Dependencia::model()->findByPk(array('id_dependencia'=>$id))->nombre;
+        }
+        
+        public static function getCantidad($id){
+            $criteria=new CDbCriteria;
+            //$criteria->select='id_inventario';
+            $criteria->compare('id_inventario',$id);
+            return Elemento::model()->count($criteria);
+        }
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

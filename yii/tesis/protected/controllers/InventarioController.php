@@ -40,8 +40,12 @@ class InventarioController extends Controller
 				'users'=>array('admin'),
 			),*/
                         array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'admin', 'create', 'crear', 'update', 'delete','updateajax', 'pdf', 'graficos', 'reporteMovil','hola','codigo'),
-				'roles'=>array('direccion','capitania'),
+				'actions'=>array('index','view', 'admin', 'create', 'update', 'delete','updateajax', 'pdf', 'graficos', 'reporteMovil','hola','codigo'),
+				'roles'=>array('direccion'),
+			),
+                        array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view', 'admin','updateajax', 'pdf', 'graficos', 'reporteMovil'),
+				'roles'=>array('capitania'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -66,6 +70,15 @@ class InventarioController extends Controller
 	 */
 	public function actionCreate()
 	{
+            function count_digit($number) {
+                $digit = 0;
+                do {
+                    $number /= 10;      //$number = $number / 10; 
+                    $number = intval($number);
+                    $digit++;
+                } while ($number != 0);
+                return $digit;
+            }
 		$model=new Inventario;
                 $modelFiltro = new Filtro();
                 if(isset($_POST['Filtro'])){     
@@ -73,7 +86,6 @@ class InventarioController extends Controller
                         $data["model"] = $model;
                         $data["modelFiltro"] = $modelFiltro;
                         $data["id_categoria"] = $modelFiltro->id_categoria;
-                        $data["id_dependencia"] = $modelFiltro->id_dependencia;
                         $this->render('_form', $data);
                 }else{
 		// Uncomment the following line if AJAX validation is needed
@@ -82,62 +94,78 @@ class InventarioController extends Controller
 		if(isset($_POST['Inventario']))
 		{
 			$model->attributes=$_POST['Inventario'];
-			if($model->save())
+                        $criteria=new CDbCriteria;
+                        $criteria->select='max(id_inventario) AS id_inventario';
+                        $row = Inventario::model()->find($criteria);
+                        $max = $row['id_inventario'];
+                        $model->id_inventario = $max+1;
+                        $com=''; $sub=''; $num='';
+                        switch (count_digit($model->id_subcategoria)) {
+                                case 1:
+                                $sub = '0'.$model->id_subcategoria;
+                                break;
+
+                                default:
+                                $sub = $model->id_subcategoria;
+                                break;
+                        }
+                        switch (count_digit($model->id_inventario)) {
+                                case 1:
+                                $num = '00'.$model->id_inventario;
+                                break;
+
+                                case 2:
+                                $num = '0'.$model->id_inventario;
+                                break;
+
+                                default:
+                                $num = $model->id_inventario;
+                                break;
+                        }
+                        $model->codigo = '006'.$sub.$num;
+			if($model->save()){
+                                $crr='';
+                                for($i=1;$i<=$model->cantidad;$i++){
+                                    switch (count_digit($i)) {
+                                        case 1:
+                                        $crr = '000'.$i;
+                                        break;
+
+                                        case 2:
+                                        $crr = '00'.$i;
+                                        break;
+                                        
+                                        case 3:
+                                        $crr = '0'.$i;
+                                        break;
+                                    
+                                        default:
+                                        $crr = $i;
+                                        break;
+                                    }
+                                    $elemento = new Elemento;
+                                    $elemento->id_dependencia = 1;
+                                    $elemento->id_inventario=$model->id_inventario;
+                                    $elemento->codigo_elemento=$model->codigo.$crr;
+                                    $elemento->fecha_in=$model->fecha_in;
+                                    $elemento->estado=$model->estado;
+                                    $width  = 275;  
+                                    $height = 100;
+                                    $quality = 200;
+                                    $text =$elemento->codigo_elemento;
+                                    $location = Yii::getPathOfAlias("webroot").'/barcodes/'.$elemento->codigo_elemento;
+                                    Yii::import("application.extensions.barcode.*");                      
+                                    barcode::Barcode39($elemento->codigo_elemento, $width , $height , $quality, $text, $location);
+                                    $elemento->save();
+                                }
 				$this->redirect(array('admin'));
+                        }
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
                 ));
                 
-                }
-	}
-        
-        public function actionCrear()
-	{
-		$model=new Inventario;
-
-                $modelFiltro = new Filtro();
-                if(isset($_POST['Filtro'])){     
-                    $modelFiltro->attributes=$_POST['Filtro'];
-                        $data["model"] = $model;
-                        $data["modelFiltro"] = $modelFiltro;
-                        $data["id_categoria"] = $modelFiltro->id_categoria;
-                        $data["id_dependencia"] = $modelFiltro->id_dependencia;
-                        $this->render('_form', $data);
-                }else{
-		if(isset($_POST['Inventario']))
-		{
-			$model->attributes=$_POST['Inventario'];
-                        $inventario = new Inventario;
-                        $criteria=new CDbCriteria;
-                        $criteria->select='max(id_inventario) AS id_inventario';
-                        $row = $inventario->model()->find($criteria);
-                        $max = $row['id_inventario'];
-                        $model->id_inventario = $max+1;
-                        /*$model->id_subcategoria = 1;
-                        $model->id_compania = 6;
-                        $model->descripcion = 'adsfs';
-                        $model->fecha_in = '2014-11-21';*/
-                        //$model->save();
-			if($model->save()){
-                            $cantidad = $model->cantidad;
-                            if($cantidad>1){
-                                $cod=$model->id_inventario+1;
-                                for($i=0;$i<$cantidad-1;$i++){
-                                    $fila=new Inventario;
-                                    $fila->attributes=$_POST['Inventario'];
-                                    $fila->id_inventario=$cod;
-                                    $fila->save();
-                                    $cod++;
-                                }
-                            }
-                            $this->redirect(array('admin'));
-                        }
-		}
-		$this->render('crear',array(
-			'model'=>$model,
-		));
                 }
 	}
 
@@ -155,9 +183,28 @@ class InventarioController extends Controller
 
 		if(isset($_POST['Inventario']))
 		{
-			$model->attributes=$_POST['Inventario'];
-			if($model->save())
-				$this->redirect(array('admin'));
+			//$model->attributes=$_POST['Inventario'];
+                        $model->attributes=$_POST['Inventario'];
+                        /*$elemento = new Elemento;
+                        $criteria=new CDbCriteria;
+                        $criteria->select='max(id_elemento) AS id_elemento';
+                        $row = $elemento->model()->find($criteria);
+                        $max = $row['id_elemento'];*/
+                        
+			if($model->save()){
+                            $cantidad = $model->cantidad;
+                                for($i=0;$i<$cantidad;$i++){
+                                    $elemento=new Elemento;
+                                    $elemento->id_inventario = $model->id_inventario;
+                                    $elemento->id_dependencia = $model->id_dependencia;
+                                    $elemento->fecha_in = $model->fecha_in;
+                                    $elemento->estado = $model->estado;
+                                    $elemento->save();
+                                }
+                            $this->redirect(array('admin'));
+                        }
+			/*if($model->save())
+				$this->redirect(array('admin'));*/
 		}
 
 		$this->render('update',array(
@@ -195,6 +242,16 @@ class InventarioController extends Controller
 	{       
                 $model=new Inventario('search');
 		$model->unsetAttributes();  // clear any default values
+                $modelConsulta = new Consulta();
+                if(isset($_POST['Consulta'])){
+                    //$this->redirect('create');
+                    $modelConsulta->attributes=$_POST['Consulta'];
+                    //print $modelConsulta->codigo;
+                    $elemento = Elemento::model()->findByAttributes(array('codigo_elemento'=>$modelConsulta->codigo));
+                    if(isset($elemento)){
+                        $this->redirect('../elemento/view/'.$elemento->id_elemento);
+                    }
+                }
                 $data = array();
                 $modelFiltro = new Filtro();
                 if(isset($_POST['Filtro'])){     
@@ -221,7 +278,9 @@ class InventarioController extends Controller
                 //$this->render('admin', $data);
 
 		$this->render('admin',array(
-			'model'=>$model, 'modelFiltro'=>$modelFiltro
+			'model'=>$model, 
+                        'modelFiltro'=>$modelFiltro,
+                        'modelConsulta'=>$modelConsulta
                 ));
                 }
 	}
@@ -235,13 +294,13 @@ class InventarioController extends Controller
         }
         
         public function actionPdf(){     
-                $this->render('reporte');
-                /*$dataProvider=new CActiveDataProvider('Inventario');
+                //$this->render('reporte');
+                $dataProvider=new CActiveDataProvider('Inventario');
                 $this->layout="//layouts/pdf";
                 # mPDF
                 $mPDF1 = Yii::app()->ePdf->mpdf();
                 $mPDF1->WriteHTML($this->render('reporte',array('dataProvider'=>$dataProvider), true));
-                $mPDF1->Output("Inventario".date("YmdHis"),  EYiiPdf::OUTPUT_TO_BROWSER);*/
+                $mPDF1->Output("Inventario".date("YmdHis"),  EYiiPdf::OUTPUT_TO_BROWSER);
         }
         
         public function actionGraficos(){
@@ -271,55 +330,56 @@ class InventarioController extends Controller
                 $digit++;
             } while ($number != 0);
             return $digit;
-        }
+            }
             $model=Inventario::model()->findAll();
             foreach($model as $i){
-                $id = '';
-                switch (count_digit($i->id_inventario)) {
-                    case 1:
-                    $id = '00'.$i->id_inventario;
-                    break;
+                for($a=1; $a<=$i->cantidad; $a++){
+                    $elemento = new Elemento;
+                    $num_elemento = '';
+                    switch (count_digit($a)) {
+                        case 1:
+                        $num_elemento = '000'.$a;
+                        break;
 
-                    case 2:
-                    $id = '0'.$i->id_inventario;
-                    break;
-
-                    default:
-                    $id = $i->id_inventario;
-                    break;
-                }
-                $cat = '';
-                switch (count_digit($i->idSubcategoria->idCategoria->id_categoria)) {
+                        case 2:
+                        $num_elemento = '00'.$a;
+                        break;
                     
-                    case 1:
-                    $cat = '0'.$i->idSubcategoria->idCategoria->id_categoria;
-                    break;
+                        case 3:
+                        $num_elemento = '0'.$a;
+                        break;
 
-                    default:
-                    $cat = $i->idSubcategoria->idCategoria->id_categoria;
-                    break;
-                }
-                $sub = '';
-                switch (count_digit($i->id_subcategoria)) {
-                    case 1:
-                    $sub = '00'.$i->id_subcategoria;
-                    break;
-
-                    case 2:
-                    $sub = '0'.$i->id_subcategoria;
-                    break;
-
-                    default:
-                    $sub = $i->id_subcategoria;
-                    break;
-                }
-                $com = 6;
-                $srt = $com.$cat.$sub.$id;
-                $i->id_inventario = (int)$srt;
-                $i->save();
+                        default:
+                        $num_elemento = $a;
+                        break;
+                    }
+                    $elemento->id_inventario = $i->id_inventario;
+                    $elemento->codigo_elemento = $i->codigo.$num_elemento;
+                    $elemento->id_dependencia = $i->id_dependencia;
+                    $elemento->fecha_in = date("dmY");
+                    $elemento->estado = 'Operativo';
+                    $elemento->save();
+                }  
             }
             $this->redirect(array('admin'));*/
-            function count_digit($number) {
+            /*$elementos=  Elemento::model()->findAll();
+            foreach($elementos as $model){
+                //Widht of the barcode image. 
+                $width  = 275;  
+                //Height of the barcode image.
+                $height = 100;
+                //Quality of the barcode image. Only for JPEG.
+                $quality = 200;
+                //1 if text should appear below the barcode. Otherwise 0.
+                $text =$model->codigo_elemento;
+                // Location of barcode image storage.
+                $location = Yii::getPathOfAlias("webroot").'/barcodes/'.$model->codigo_elemento;
+
+                Yii::import("application.extensions.barcode.*");                      
+                barcode::Barcode39($model->codigo_elemento, $width , $height , $quality, $text, $location);
+            }
+            $this->redirect(array('admin'));*/
+            /*function count_digit($number) {
             $digit = 0;
             do {
                 $number /= 10;      //$number = $number / 10; 
@@ -328,40 +388,44 @@ class InventarioController extends Controller
             } while ($number != 0);
             return $digit;
             }
-            $model=Inventario::model()->findAll();
-            foreach($model as $i){
-                for($a=1; $a<=$i->cantidad; $a++){
-                    $elemento = new Elemento;
-                    $id_elemento = '';
-                    switch (count_digit($a)) {
+            $inventarios=Inventario::model()->findAll();
+            $a=1;
+            $num_inventario='';
+            foreach($inventarios as $model){   
+                $sub='';
+                switch (count_digit($model->id_subcategoria)) {
                         case 1:
-                        $id_elemento = '000'.$a;
-                        break;
-
-                        case 2:
-                        $id_elemento = '00'.$a;
-                        break;
-                    
-                        case 3:
-                        $id_elemento = '0'.$a;
+                        $sub = '0'.$model->id_subcategoria;
                         break;
 
                         default:
-                        $id_elemento = $a;
+                        $sub = $model->id_subcategoria;
                         break;
-                    }
-                    $id_inventario = '';
-                    $id_inventario = $i->id_inventario;
-                    $srt = $id_inventario.$id_elemento;
-                    $elemento->id_elemento = (int)$srt;
-                    $elemento->id_inventario = $i->id_inventario;
-                    $elemento->id_dependencia = $i->id_dependencia;
-                    $elemento->fecha_in = $i->fecha_in;
-                    $elemento->estado = $i->estado;
-                    $elemento->save();
-                }  
+                }
+                switch (count_digit($a)) {
+                        case 1:
+                        $num_inventario = '00'.$a;
+                        break;
+
+                        case 2:
+                        $num_inventario = '0'.$a;
+                        break;
+
+                        default:
+                        $num_inventario = $a;
+                        break;
+                }
+                $a++;
+                $model->codigo = '006'.$sub.$num_inventario;
+                $model->save();
+            }*/
+            /*foreach($inventarios as $model){
+                $model->descripcion = null; 
+                $model->save();
             }
-            $this->redirect(array('admin'));
+            $this->redirect(array('admin'));*/
+        //Widht of the barcode image. 
+        
         }
 	/**
 	 * Manages all models.
